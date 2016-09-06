@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.DataAccess.Interfaces
 {
@@ -14,5 +12,6 @@ namespace SocialNetwork.DataAccess.Interfaces
         void Create(T item);
         void Update(T item);
         void Delete(int id);
+        IQueryable<T> Query { get; }
     }
 }
