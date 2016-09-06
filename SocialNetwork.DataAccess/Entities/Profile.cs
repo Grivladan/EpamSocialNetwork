@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SocialNetwork.DataAccess.Interfaces;
 
 namespace SocialNetwork.DataAccess.Entities
 {
-    public class Profile
+    public class Profile : IEntity
     {
         [Key]
         [ForeignKey("User")]
