@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SocialNetwork.DataAccess.Interfaces
 {
-    public interface IRepository<T> where T: class
+    public interface IRepository<T> where T: class, IEntity
     {
         IEnumerable<T> GetAll();
         T Get(int id);

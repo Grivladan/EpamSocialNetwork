@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace SocialNetwork.DataAccess.EF
 {
-    class SocialNetworkInitializer
+    public class SocialNetworkInitializer : DropCreateDatabaseAlways<SocialNetworkContext>
     {
+        protected override void Seed(SocialNetworkContext context)
+        {
+            
+        }
     }
 }

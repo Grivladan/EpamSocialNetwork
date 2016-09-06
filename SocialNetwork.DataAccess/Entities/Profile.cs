@@ -13,6 +13,8 @@ namespace SocialNetwork.DataAccess.Entities
         public string LastName { get; set; }
         public int Age { get; set; }
         public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Gender { get; set; }
 
         public virtual IList<User> Friends { get; set; }
         public virtual IList<Message> Messages { get; set; }
