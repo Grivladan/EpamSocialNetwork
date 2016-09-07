@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using SocialNetwork.DataAccess.Interfaces;
 
 namespace SocialNetwork.DataAccess.Repository
@@ -16,9 +17,14 @@ namespace SocialNetwork.DataAccess.Repository
             _context = context;
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
-            return Query.ToList();
+            return await Query.ToListAsync();
+        }
+
+        public async Task<T> GetAsync(int id)
+        {
+            return await Query.SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public T Get(int id)
