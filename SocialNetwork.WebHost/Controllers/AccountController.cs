@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SocialNetwork.WebHost.Models;
+using SocialNetwork.DataAccess.EF;
 
 namespace SocialNetwork.WebHost.Controllers
 {

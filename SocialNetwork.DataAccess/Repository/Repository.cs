@@ -4,15 +4,16 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using SocialNetwork.DataAccess.Interfaces;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SocialNetwork.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity
     {
-        private readonly DbContext _context;
+        private readonly IdentityDbContext _context;
         private DbSet<T> _entities;
 
-        public Repository(DbContext context)
+        public Repository(IdentityDbContext context)
         {
             _context = context;
         }

@@ -1,10 +1,11 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SocialNetwork.DataAccess.Entities;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace SocialNetwork.WebHost.Models
+namespace SocialNetwork.DataAccess.EF
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
@@ -24,6 +25,13 @@ namespace SocialNetwork.WebHost.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Registration> Registrations { get; set; }
+       // public DbSet<User> Users { get; set; }
 
         public static ApplicationDbContext Create()
         {

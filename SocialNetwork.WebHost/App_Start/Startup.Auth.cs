@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using SocialNetwork.WebHost.Models;
+using SocialNetwork.DataAccess.EF;
 
 namespace SocialNetwork.WebHost
 {

@@ -7,11 +7,11 @@ namespace SocialNetwork.DataAccess.Repository
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private readonly SocialNetworkContext _context;
+        private readonly ApplicationDbContext _context;
         private bool _isDisposed;
         private readonly IRepositoryFactory _repositoryFactory;
 
-        public EFUnitOfWork(SocialNetworkContext context, IRepositoryFactory repositoryFactory)
+        public EFUnitOfWork(ApplicationDbContext context, IRepositoryFactory repositoryFactory)
         {
             _context = context;
             _repositoryFactory = repositoryFactory;
