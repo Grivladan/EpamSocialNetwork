@@ -59,11 +59,11 @@ namespace SocialNetwork.WebHost
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "243511727551-h7i5idr4okevngnvetv8t5ltqeebf782.apps.googleusercontent.com",
+                ClientSecret = "kK1q8L5ha-K26FbR8vPl9vxw"
+            });
         }
     }
 }
