@@ -1,0 +1,24 @@
+﻿@model SocialNetwork.DataAccess.Entities.ApplicationUser
+
+@{
+    ViewBag.Title = "GetUserById";
+}
+
+<h2>GetUserById</h2>
+<p>@Model.Email</p>
+<hr />
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="col-md-4">
+            <p>My future navigation menu<p>
+        </div>
+
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="message">Write a new post:</label>
+                <textarea class="form-control" name="message" id="message" placeholder="New post"></textarea>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+    </div>
+</div>

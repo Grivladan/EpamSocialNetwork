@@ -59,13 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationDbContext.cs" />
+    <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Post.cs" />
     <Compile Include="Entities\Profile.cs" />
-    <Compile Include="Entities\Registration.cs" />
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IRepositoryFactory.cs" />

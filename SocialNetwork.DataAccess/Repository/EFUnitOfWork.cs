@@ -21,8 +21,7 @@ namespace SocialNetwork.DataAccess.Repository
         private IRepository<Message> _messagesRepository;
         private IRepository<Post> _postsRepository;
         private IRepository<Profile> _profilesRepository;
-        private IRepository<User> _usersRepository;
-        private IRepository<Registration> _registrationRepository;
+        //private IRepository<ApplicationUser> _usersRepository;
 
         public IRepository<Group> Groups
         {
@@ -57,22 +56,13 @@ namespace SocialNetwork.DataAccess.Repository
             }
         }
 
-        public IRepository<Registration> Registrations
-        {
-            get
-            {
-                return _registrationRepository ??
-                       (_registrationRepository = _repositoryFactory.CreateRepository<Registration>(_context));
-            }
-        }
-
-        public IRepository<User> Users
+      /*  public IRepository<ApplicationUser> ApplicationUsers
         {
             get
             {
                 return _usersRepository ?? (_usersRepository = _repositoryFactory.CreateRepository<User>(_context));
             }
-        }
+        }*/
 
         public void Dispose()
         {

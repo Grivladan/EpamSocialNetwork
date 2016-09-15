@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using SocialNetwork.DataAccess.EF;
+using SocialNetwork.DataAccess.Entities;
 
 namespace SocialNetwork.WebHost
 {

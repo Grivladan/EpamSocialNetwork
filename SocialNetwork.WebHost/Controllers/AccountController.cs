@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SocialNetwork.WebHost.Models;
 using SocialNetwork.DataAccess.EF;
+using SocialNetwork.DataAccess.Entities;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -163,8 +164,8 @@ namespace SocialNetwork.WebHost.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    
+                    return RedirectToAction("GetUserById", "Home");
                 }
                 AddErrors(result);
             }

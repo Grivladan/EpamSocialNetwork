@@ -11,6 +11,6 @@ namespace SocialNetwork.DataAccess.Entities
         public string Description { get; set; }
         public DateTime Date { get; set; }
 
-        public virtual IList<User> Users { get; set; }
+        public virtual IList<ApplicationUser> Users { get; set; }
     }
 }
