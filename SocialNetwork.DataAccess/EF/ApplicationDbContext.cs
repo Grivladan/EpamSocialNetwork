@@ -19,7 +19,6 @@ namespace SocialNetwork.DataAccess.EF
         public DbSet<Post> Posts { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Comment> Comments { get; set; }
-       // public DbSet<User> Users { get; set; }
 
         public static ApplicationDbContext Create()
         {

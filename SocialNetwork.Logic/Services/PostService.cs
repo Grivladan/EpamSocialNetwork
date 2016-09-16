@@ -48,6 +48,11 @@ namespace SocialNetwork.Logic.Services
             throw new NotImplementedException();
         }
 
+        /*public IEnumerable<Post> GetPostsByUser(ApplicationUser user)
+        {
+            return _unitOfWork.Posts.Query.Where(x => x.ApplicationUser == user);
+        }*/
+
         public void Dispose()
         {
             throw new NotImplementedException();

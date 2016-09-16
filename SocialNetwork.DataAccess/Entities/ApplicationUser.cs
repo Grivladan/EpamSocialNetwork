@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -17,5 +18,6 @@ namespace SocialNetwork.DataAccess.Entities
         }
 
         public virtual Profile Profile { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

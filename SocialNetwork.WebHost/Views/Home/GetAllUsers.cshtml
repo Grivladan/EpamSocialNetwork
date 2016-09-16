@@ -1,0 +1,11 @@
+﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.ApplicationUser>
+
+@{
+    ViewBag.Title = "GetAllUsers";
+}
+
+<h2>GetAllUsers</h2>
+@foreach(var item in Model){
+    <p>@item.UserName</p>
+}
+
