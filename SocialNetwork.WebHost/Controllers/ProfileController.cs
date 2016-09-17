@@ -13,7 +13,7 @@ namespace SocialNetwork.WebHost.Controllers
     {
         ApplicationDbContext context = new ApplicationDbContext();
         // GET: Profile
-        public ActionResult Edit(int id=0)
+        public ActionResult Edit(int id = 0)
         {
             Profile profile = context.Profiles.Find(id);
             if (profile == null)

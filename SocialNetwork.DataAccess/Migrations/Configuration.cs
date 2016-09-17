@@ -10,7 +10,6 @@ namespace SocialNetwork.DataAccess.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "SocialNetwork.DataAccess.EF.ApplicationDbContext";
         }
 
         protected override void Seed(SocialNetwork.DataAccess.EF.ApplicationDbContext context)

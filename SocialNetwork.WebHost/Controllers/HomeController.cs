@@ -22,9 +22,9 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetUserById()
         {
-            var currentUserId = User.Identity.GetUserId();
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            var currentUser = manager.FindById(User.Identity.GetUserId());
+            var currentUserId = User.Identity.GetUserId<int>();
+            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
+            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
             ViewBag.Text = "";
             return View(currentUser);
         }
@@ -43,7 +43,7 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetAllUsers()
         {
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
             var users = manager.Users.ToList();
             return View(users);
         }

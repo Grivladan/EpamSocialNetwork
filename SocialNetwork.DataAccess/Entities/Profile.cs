@@ -7,8 +7,7 @@ namespace SocialNetwork.DataAccess.Entities
 {
     public class Profile : IEntity
     {
-       /* [Key]
-        [ForeignKey("ApplicationUser")]*/
+       // [Key, ForeignKey("ApplicationUser")]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,10 +16,6 @@ namespace SocialNetwork.DataAccess.Entities
         public string Email { get; set; }
         public string Gender { get; set; }
 
-        public virtual IList<ApplicationUser> Friends { get; set; }
-        public virtual IList<Message> Messages { get; set; }
-        public virtual IList<Post> Posts { get; set; }
-
-        public ApplicationUser ApplicationUser { get; set; }
+        //public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
