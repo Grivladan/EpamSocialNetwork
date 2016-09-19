@@ -11,6 +11,11 @@ namespace SocialNetwork.DataAccess.Entities
         public DateTime Date { get; set; }
 
         public int? ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public Post()
+        {
+            Date = DateTime.Now;
+        }
     }
 }

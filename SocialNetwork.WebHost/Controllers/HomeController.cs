@@ -25,20 +25,24 @@ namespace SocialNetwork.WebHost.Controllers
             var currentUserId = User.Identity.GetUserId<int>();
             var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
             var currentUser = manager.FindById(User.Identity.GetUserId<int>());
-            ViewBag.Text = "";
             return View(currentUser);
         }
 
         [HttpPost]
         public ActionResult GetUserById(FormCollection formCollection)
         {
-            RedirectToAction("Log", "Account");
-            Post post = new Post();
-            post.Text = formCollection["Text"];
-            context.Posts.Add(post);
-            context.SaveChanges();
-            ViewBag.Text = post.Text;
-            return View("GetUserByID");
+            var currentUserId = User.Identity.GetUserId<int>();
+            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
+            if (ModelState.IsValid)
+            {
+                Post post = new Post();
+                post.Text = formCollection["Post"];
+                post.ApplicationUser = currentUser;
+                context.Posts.Add(post);
+                context.SaveChanges();
+            }
+            return View("GetUserById", currentUser);
         }
 
         public ActionResult GetAllUsers()

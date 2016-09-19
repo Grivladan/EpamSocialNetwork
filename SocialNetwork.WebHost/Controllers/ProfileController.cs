@@ -30,7 +30,7 @@ namespace SocialNetwork.WebHost.Controllers
             {
                 context.Entry(profile).State = EntityState.Modified;
                 context.SaveChanges();
-                return RedirectToAction("Edit");
+                return RedirectToAction("GetUserById", "Home");
             }
             return View(profile);
         }
