@@ -18,7 +18,7 @@ namespace SocialNetwork.DataAccess.Entities
             return userIdentity;
         }
 
-       // public virtual Profile Profile { get; set; }
+        public virtual Profile Profile { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
     }
 

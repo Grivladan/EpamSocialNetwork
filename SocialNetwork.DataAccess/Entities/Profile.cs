@@ -7,7 +7,8 @@ namespace SocialNetwork.DataAccess.Entities
 {
     public class Profile : IEntity
     {
-       // [Key, ForeignKey("ApplicationUser")]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.None), Key]
+        [ForeignKey("ApplicationUser")]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -16,6 +17,6 @@ namespace SocialNetwork.DataAccess.Entities
         public string Email { get; set; }
         public string Gender { get; set; }
 
-        //public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
