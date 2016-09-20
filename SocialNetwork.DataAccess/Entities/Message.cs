@@ -7,10 +7,15 @@ namespace SocialNetwork.DataAccess.Entities
     {
         public int Id { get; set; }
         public string Text { get; set; }
-       // public ApplicationUser Author { get; set; }
         public DateTime Date { get; set; }
 
-        /*public int? ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }*/
+        public int? ApplicationUserId { get; set; }
+        public virtual ApplicationUser Sender { get; set; }
+        public ApplicationUser Receiver { get; set; }
+
+        public Message()
+        {
+            Date = DateTime.Now;
+        }
     }
 }

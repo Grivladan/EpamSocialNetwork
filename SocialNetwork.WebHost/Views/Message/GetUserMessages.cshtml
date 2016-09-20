@@ -1,0 +1,15 @@
+﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.Message>
+
+@{
+    ViewBag.Title = "GetUserMessages";
+}
+
+<h2>My Messages</h2>
+@foreach (var item in Model)
+{
+    @item.Sender.UserName
+    @item.Receiver.UserName
+    <br />
+    @item.Text
+    <hr/>
+}
