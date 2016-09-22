@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
 using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
 using System;
@@ -45,14 +46,17 @@ namespace SocialNetwork.WebHost.Controllers
             return View("GetUserById", currentUser);
         }
 
-        public ActionResult GetAllUsers()
+        public ActionResult GetAllUsers(int page = 1, int pageSize = 1)
         {
             var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
             var users = manager.Users.ToList();
-            return View(users);
+
+            PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
+
+            return View(model);
         }
 
-        public ActionResult Search(string searchString)
+        public ActionResult Search(string searchString, int page = 1, int pageSize = 1)
         {
             var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
             var users = manager.Users.ToList();
@@ -62,7 +66,9 @@ namespace SocialNetwork.WebHost.Controllers
                 users = users.Where(x => x.Profile.FirstName.Contains(searchString)).ToList();
             }
 
-            return View("GetAllUsers", users);
+            PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
+
+            return View("GetAllUsers", model);
         }
     }
 }

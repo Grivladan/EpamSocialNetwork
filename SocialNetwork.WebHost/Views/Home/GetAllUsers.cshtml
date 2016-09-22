@@ -1,4 +1,6 @@
-﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.ApplicationUser>
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<SocialNetwork.DataAccess.Entities.ApplicationUser>
 
 @{
     ViewBag.Title = "GetAllUsers";
@@ -17,16 +19,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Profile.FirstName)
+            @Html.DisplayNameFor(model => model.First().Profile.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.First().Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.First().PhoneNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.First().UserName)
         </th>
         <th></th>
     </tr>
@@ -54,3 +56,9 @@
 }
 
 </table>
+
+<div class="col-md-10">
+    <div class="center">
+        @Html.PagedListPager(Model, page => Url.Action("GetAllUsers", new { page, pageSize = Model.PageSize}))
+    </div>
+</div>
