@@ -13,7 +13,7 @@ namespace SocialNetwork.WebHost.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext(); 
+        ApplicationDbContext context = new ApplicationDbContext();
 
         public ActionResult Index()
         {
@@ -47,9 +47,22 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetAllUsers()
         {
-            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
+            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
             var users = manager.Users.ToList();
             return View(users);
+        }
+
+        public ActionResult Search(string searchString)
+        {
+            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+            var users = manager.Users.ToList();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(x => x.Profile.FirstName.Contains(searchString)).ToList();
+            }
+
+            return View("GetAllUsers", users);
         }
     }
 }
