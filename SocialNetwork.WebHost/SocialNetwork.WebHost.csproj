@@ -279,6 +279,8 @@
     <Content Include="Views\Post\GetPostsByUser.cshtml" />
     <Content Include="Views\Message\GetUserMessages.cshtml" />
     <Content Include="Views\Home\GetAllUsers.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

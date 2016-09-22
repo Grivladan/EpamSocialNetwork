@@ -15,7 +15,8 @@ namespace SocialNetwork.WebHost.Controllers
         // GET: Message
         public ActionResult Index()
         {
-            return View();
+            var messages = context.Messages.ToList();
+            return View(messages);
         }
 
         public ActionResult Create()
@@ -32,11 +33,11 @@ namespace SocialNetwork.WebHost.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult GetUserMessages(int id)
+        /*public ActionResult GetUserMessages(int id)
         {
             var messages = context.Messages.Where(x => x.ApplicationUserId == id || x.Sender.Id == id);
             return View(messages);
-        }
+        }*/
 
         private void SendMessage(string message)
         {
