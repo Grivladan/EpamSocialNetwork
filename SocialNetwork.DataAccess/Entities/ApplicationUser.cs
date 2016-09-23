@@ -14,6 +14,7 @@ namespace SocialNetwork.DataAccess.Entities
         {
             Posts = new List<Post>();
             Messages = new List<Message>();
+            Friends = new List<ApplicationUser>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
@@ -27,6 +28,7 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual Profile Profile { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<ApplicationUser> Friends { get; set; }
     }
 
     public class CustomUserRole : IdentityUserRole<int> { }

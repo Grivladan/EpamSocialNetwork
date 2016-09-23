@@ -14,17 +14,17 @@ namespace SocialNetwork.WebHost.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
+        private ApplicationDbContext context;
+        private UserManager<ApplicationUser, int> manager;
 
-        public ActionResult Index()
+        public HomeController()
         {
-            return View();
+            context = new ApplicationDbContext();
+            manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
         }
 
         public ActionResult GetUserById()
         {
-            var currentUserId = User.Identity.GetUserId<int>();
-            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
             var currentUser = manager.FindById(User.Identity.GetUserId<int>());
             return View(currentUser);
         }
@@ -32,8 +32,6 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult GetUserById(FormCollection formCollection)
         {
-            var currentUserId = User.Identity.GetUserId<int>();
-            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
             var currentUser = manager.FindById(User.Identity.GetUserId<int>());
             if (ModelState.IsValid)
             {
@@ -44,6 +42,15 @@ namespace SocialNetwork.WebHost.Controllers
                 context.SaveChanges();
             }
             return View("GetUserById", currentUser);
+        }
+
+        public ActionResult GetUserFriends(int page = 1, int pageSize = 1)
+        {
+            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
+
+            PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(currentUser.Friends, page, pageSize);
+
+            return View("GetAllUsers", model );
         }
 
         public ActionResult GetAllUsers(int page = 1, int pageSize = 1)
