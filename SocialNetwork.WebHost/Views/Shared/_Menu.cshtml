@@ -1,0 +1,6 @@
+﻿<div class="btn-group-vertical">
+    @Html.ActionLink("My Profile", "Edit", "Profile", new { id = @Model.Id }, new { @class = "btn btn-primary btn-large" })
+    @Html.ActionLink("Friends", "GetUserFriends", "Home", null, new { @class = "btn btn-primary btn-large" })
+    @Html.ActionLink("Messages", "GetUserMessages", "Message", new { id = @Model.Id }, new { @class = "btn btn-primary btn-large" })
+    @Html.ActionLink("Posts", "GetPostsByUser", "Post", new { id = @Model.Id }, new { @class = "btn btn-primary btn-large" })
+</div>
