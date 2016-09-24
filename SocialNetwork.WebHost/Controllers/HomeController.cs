@@ -55,7 +55,6 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetAllUsers(int page = 1, int pageSize = 1)
         {
-            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
             var users = manager.Users.ToList();
 
             PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
@@ -76,6 +75,18 @@ namespace SocialNetwork.WebHost.Controllers
             PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
 
             return View("GetAllUsers", model);
+        }
+
+        public ActionResult AddFriend(int id)
+        {
+            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
+            var requestedUser = manager.FindById(id);
+            currentUser.Friends.Add(requestedUser);
+            requestedUser.Friends.Add(currentUser);
+            manager.Update(currentUser);
+            manager.Update(requestedUser);
+            context.SaveChanges();
+            return RedirectToAction("GetAllUsers");
         }
     }
 }
