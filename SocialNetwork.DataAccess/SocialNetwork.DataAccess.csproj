@@ -61,6 +61,7 @@
     <Compile Include="EF\ApplicationDbContext.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\FriendRequest.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Post.cs" />

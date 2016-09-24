@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
 using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
+using SocialNetwork.WebHost.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,12 +82,32 @@ namespace SocialNetwork.WebHost.Controllers
         {
             var currentUser = manager.FindById(User.Identity.GetUserId<int>());
             var requestedUser = manager.FindById(id);
+            CreateFriendRequest(currentUser.Id, requestedUser.Id);
             currentUser.Friends.Add(requestedUser);
-            requestedUser.Friends.Add(currentUser);
+            /*requestedUser.Friends.Add(currentUser);
             manager.Update(currentUser);
             manager.Update(requestedUser);
-            context.SaveChanges();
+            context.SaveChanges();*/
             return RedirectToAction("GetAllUsers");
+        }
+
+        public void CreateFriendRequest(int userId, int friendUserId)
+        {
+            var request = new FriendRequest()
+            {
+                RequestedFrom = userId,
+                RequestedTo = friendUserId,
+                Date = DateTime.Now
+            };
+            SendRequest();
+            context.Requests.Add(request);
+            context.SaveChanges();
+        }
+
+        private void SendRequest()
+        {
+            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            context.Clients.All.displayMessage("You get friend request");
         }
     }
 }

@@ -6,6 +6,8 @@
     ViewBag.Title = "GetAllUsers";
 }
 
+<div><span id="notification" style="color:red;font-size:15px;"></span></div>
+
 <h2>List of users</h2>
 
 @using (Html.BeginForm("Search", "Home"))
@@ -60,3 +62,22 @@
         @Html.PagedListPager(Model, page => Url.Action("GetAllUsers", new { page, pageSize = Model.PageSize}))
     </div>
 </div>
+
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+    $(function () {
+
+        var notificationhub = $.connection.notificationHub;
+
+        notificationhub.client.displayMessage = function (message) {
+
+            $('#notification').html(message);
+        };
+
+        $.connection.hub.start();
+
+    });
+    </script>
+}
