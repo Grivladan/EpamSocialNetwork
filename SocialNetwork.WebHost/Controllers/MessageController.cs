@@ -33,7 +33,7 @@ namespace SocialNetwork.WebHost.Controllers
             return RedirectToAction("Index");
         }
 
-        /*public ActionResult GetUserMessages(int id)
+       /* public ActionResult GetUserMessages(int id)
         {
             var messages = context.Messages.Where(x => x.ApplicationUserId == id || x.Sender.Id == id);
             return View(messages);

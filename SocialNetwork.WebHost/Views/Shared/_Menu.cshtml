@@ -1,6 +1,18 @@
 ﻿<div class="btn-group-vertical">
-    @Html.ActionLink("My Profile", "Edit", "Profile", new { id = @Model.Id }, new { @class = "btn btn-primary btn-large" })
-    @Html.ActionLink("Friends", "GetUserFriends", "Home", null, new { @class = "btn btn-primary btn-large" })
-    @Html.ActionLink("Messages", "GetUserMessages", "Message", new { id = @Model.Id }, new { @class = "btn btn-primary btn-large" })
-    @Html.ActionLink("Posts", "GetPostsByUser", "Post", new { id = @Model.Id }, new { @class = "btn btn-primary btn-large" })
+    <a href="@Url.Action("Edit", "Profile", new { id = @Model.Id })" class="btn btn-primary btn-large">
+        My Profile
+        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+    </a>
+    <a href="@Url.Action("GetUserFriends", "Home", null)" class="btn btn-primary btn-large">
+        Friends
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+    </a>
+    <a href="@Url.Action("GetUserMessages", "Message", new { id = @Model.Id })" class="btn btn-primary btn-large">
+        Messages
+        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+    </a>
+    <a href="@Url.Action("GetPostsByUser", "Post", new { id = @Model.Id })" class="btn btn-primary btn-large">
+        Posts
+        <i class="glyphicon glyphicon-list-alt"></i>
+    </a>
 </div>

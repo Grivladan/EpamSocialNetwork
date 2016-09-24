@@ -4,5 +4,6 @@ namespace SocialNetwork.WebHost.Hubs
 {
     public class NotificationHub : Hub
     {
+
     }
 }
