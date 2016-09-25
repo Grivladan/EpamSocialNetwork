@@ -9,11 +9,11 @@ namespace SocialNetwork.Logic.Interfaces
 {
     public interface IPostService
     {
-        Task<IEnumerable<Post>> GetAll();
-        Task<Post> Get(int id);
-        Task Create(Post post);
-        Task<Post> Update(int id, Post post);
-        Task Delete(int id);
+        IEnumerable<Post> GetAll();
+        Post GetById(int id);
+        void Create(Post post);
+        Post Update(int id, Post post);
+        void Delete(int id);
         void Dispose();
     }
 }

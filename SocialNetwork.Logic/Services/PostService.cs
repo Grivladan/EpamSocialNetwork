@@ -18,32 +18,31 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<Post>> GetAll()
+        public IEnumerable<Post> GetAll()
         {
-            var posts = await _unitOfWork.Posts.GetAll();
+            var posts = _unitOfWork.Posts.GetAll();
             return posts;
         }
 
-        public async Task<Post> Get(int id)
+        public Post GetById(int id)
         {
-            var post = await _unitOfWork.Posts.GetAsync(id);
+            var post = _unitOfWork.Posts.GetById(id);
             return post;           
         }
 
 
-        public Task Create(Post post)
+        public void Create(Post post)
         {
             _unitOfWork.Posts.Create(post);
             _unitOfWork.Save();
-            return null;
         }
 
-        public Task<Post> Update(int id, Post post)
+        public Post Update(int id, Post post)
         {
             throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }

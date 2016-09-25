@@ -18,9 +18,9 @@ namespace SocialNetwork.DataAccess.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            return await Query.ToListAsync();
+            return Query.ToList();
         }
 
         public async Task<T> GetAsync(int id)
@@ -28,7 +28,7 @@ namespace SocialNetwork.DataAccess.Repository
             return await Query.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public T Get(int id)
+        public T GetById(int id)
         {
             return Query.First(x => x.Id == id);
         }
@@ -72,7 +72,7 @@ namespace SocialNetwork.DataAccess.Repository
         {
             try
             {
-                var entity = Get(id);
+                var entity = GetById(id);
                 if (entity == null)
                 {
                     throw new ArgumentNullException("id");

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SocialNetwork.DataAccess.Interfaces;
+using System;
 
 namespace SocialNetwork.DataAccess.Entities
 {
-    public class Comment
+    public class Comment : IEntity
     {
         public int Id { get; set; }
         public string Text { get; set; }

@@ -17,19 +17,9 @@ namespace SocialNetwork.DataAccess.Repository
             _repositoryFactory = repositoryFactory;
         }
 
-        private IRepository<Group> _groupsRepository;
         private IRepository<Message> _messagesRepository;
         private IRepository<Post> _postsRepository;
         private IRepository<Profile> _profilesRepository;
-        //private IRepository<ApplicationUser> _usersRepository;
-
-        public IRepository<Group> Groups
-        {
-            get
-            {
-                return _groupsRepository ?? (_groupsRepository =_repositoryFactory.CreateRepository<Group>(_context));
-            }
-        }
 
         public IRepository<Message> Messages
         {
