@@ -6,10 +6,6 @@
     ViewBag.Title = "GetAllUsers";
 }
 
-<div class="col-md-4">
-    @Html.Partial("_Menu")
-</div>
-
 <div><span id="notification" style="color:red;font-size:15px;"></span></div>
 
 <h2>List of users</h2>
@@ -55,6 +51,7 @@
         </td>
         <td>
             @Html.ActionLink("Add friend", "AddFriend", new { id=item.Id }) |
+            @Html.ActionLink("Send message", "Create", "Message", new { id = item.Id }, null)
         </td>
     </tr>
 }

@@ -21,7 +21,7 @@ namespace SocialNetwork.WebHost.Controllers
         public HomeController()
         {
             context = new ApplicationDbContext();
-            manager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
+            manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
         }
 
         public ActionResult GetUserById()

@@ -1,16 +1,5 @@
 ﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.Message>
 
-@{
-    ViewBag.Title = "Index";
-}
-
-<div><span id="notification" style="color:red;font-size:15px;"></span></div>
-
-<h2>Get all messages</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -19,7 +8,8 @@
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        <th></th>
+        <th>
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -39,22 +29,3 @@
 }
 
 </table>
-
-@section scripts{
-    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
-    <script src="~/signalr/hubs"></script>
-    <script type="text/javascript">
-    $(function () {
-
-        var notificationhub = $.connection.notificationHub;
-
-        notificationhub.client.displayMessage = function (message) {
-
-            $('#notification').html(message);
-        };
-
-        $.connection.hub.start();
-
-    });
-    </script>
-}
