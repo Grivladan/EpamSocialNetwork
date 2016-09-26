@@ -46,14 +46,6 @@ namespace SocialNetwork.DataAccess.Repository
             }
         }
 
-      /*  public IRepository<ApplicationUser> ApplicationUsers
-        {
-            get
-            {
-                return _usersRepository ?? (_usersRepository = _repositoryFactory.CreateRepository<User>(_context));
-            }
-        }*/
-
         public void Dispose()
         {
             Dispose(true);

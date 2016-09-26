@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
+using SocialNetwork.Logic.Interfaces;
 using SocialNetwork.WebHost.Hubs;
 using System.Linq;
 using System.Web.Mvc;
@@ -9,18 +10,16 @@ namespace SocialNetwork.WebHost.Controllers
 {
     public class MessageController : Controller
     {
-        ApplicationDbContext context;
-        UserManager<ApplicationUser, int> manager;
-
-        public MessageController()
+        private readonly IMessageService _messageService;
+       
+        public MessageController(IMessageService messageService)
         {
-            context =  new ApplicationDbContext();
-            manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+            _messageService = messageService;
         }
         // GET: Message
         public ActionResult Index()
         {
-            var messages = context.Messages.ToList();
+            var messages = _messageService.GetAll();
             return View(messages);
         }
 
@@ -32,18 +31,14 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult Create(Message message, int id)
         {
-            message.ApplicationUser = manager.FindById(User.Identity.GetUserId<int>());
-            var userTo = manager.FindById(id);
-            message.Receiver = userTo;
-            context.Messages.Add(message);
-            context.SaveChanges();
+            _messageService.SendMessage(message, id);
             SendMessage("You get new message");
             return RedirectToAction("Index");
         }
 
         public ActionResult GetUserMessages(int id)
         {
-            var messages = context.Messages.Where(x => x.ApplicationUserId == id || x.Receiver.Id == id);
+            var messages = _messageService.GetUserMessages(id);
             return View("Index", messages);
         }
 
@@ -51,12 +46,6 @@ namespace SocialNetwork.WebHost.Controllers
         {
             var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
             context.Clients.All.displayMessage(message);
-        }
-
-        private void SendMessageById(string message, string connectionId)
-        {
-            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            context.Clients.Client(connectionId).displayMessage(message);
         }
     }
 }
