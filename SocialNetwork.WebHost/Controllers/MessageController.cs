@@ -31,7 +31,7 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult Create(Message message, int id)
         {
-            _messageService.SendMessage(message, id);
+            _messageService.SendMessage(message, User.Identity.GetUserId<int>(), id);
             SendMessage("You get new message");
             return RedirectToAction("Index");
         }

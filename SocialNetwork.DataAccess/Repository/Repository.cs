@@ -5,15 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using SocialNetwork.DataAccess.Interfaces;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SocialNetwork.DataAccess.Entities;
 
 namespace SocialNetwork.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity
     {
-        private readonly IdentityDbContext _context;
+        private readonly IdentityDbContext<ApplicationUser, CustomRole, 
+            int, CustomUserLogin, CustomUserRole, CustomUserClaim> _context;
         private DbSet<T> _entities;
 
-        public Repository(IdentityDbContext context)
+        public Repository(IdentityDbContext<ApplicationUser, CustomRole,
+            int, CustomUserLogin, CustomUserRole, CustomUserClaim> context)
         {
             _context = context;
         }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using SocialNetwork.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -16,10 +16,10 @@ namespace SocialNetwork.Logic.Services
         private readonly UserManager<ApplicationUser, int> _manager;
 
 
-        public MessageService(IUnitOfWork unitOfWork, UserManager<ApplicationUser, int> manager)
+        public MessageService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _manager = manager;
+            _manager = new UserManager<ApplicationUser, int>(new CustomUserStore(_unitOfWork.GetContext()));
         }
 
         public IEnumerable<Message> GetAll()
@@ -42,27 +42,34 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Messages.Create(message);
             _unitOfWork.Save();
 
-            return null
+            return null;
         }
 
-        public void SendMessage(Message message, int id)
+        public void SendMessage(Message message, int fromId, int toId)
         {
-            message.ApplicationUser = manager.FindById(User.Identity.GetUserId<int>());
-            var userTo = manager.FindById(id);
+            message.ApplicationUser = _manager.FindById(fromId);
+            var userTo = _manager.FindById(toId);
             message.Receiver = userTo;
 
             _unitOfWork.Messages.Create(message);
             _unitOfWork.Save();
         }
 
-        public DataAccess.Entities.Message Update(int id, DataAccess.Entities.Message message)
+        public IEnumerable<Message> GetUserMessages(int id)
+        {
+            var messages = _unitOfWork.Messages.Query.Where(x => x.Id == id || x.Receiver.Id == id);
+            return messages;
+        }
+
+        public Message Update(int id, DataAccess.Entities.Message message)
         {
             throw new NotImplementedException();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _unitOfWork.Dispose();
         }
+
     }
 }

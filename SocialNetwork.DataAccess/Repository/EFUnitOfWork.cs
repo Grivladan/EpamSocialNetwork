@@ -7,7 +7,7 @@ namespace SocialNetwork.DataAccess.Repository
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
         private bool _isDisposed;
         private readonly IRepositoryFactory _repositoryFactory;
 
@@ -66,6 +66,11 @@ namespace SocialNetwork.DataAccess.Repository
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public ApplicationDbContext GetContext()
+        {
+            return _context;    
         }
     }
 }
