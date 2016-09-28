@@ -24,6 +24,13 @@ namespace SocialNetwork.WebHost.Controllers
             manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
         }
 
+        public ActionResult Index()
+        {
+            if (Request.IsAuthenticated)
+                return RedirectToAction("GetUserById");
+            return RedirectToAction("Login", "Account", null);
+        }
+
         public ActionResult GetUserById()
         {
             var currentUser = manager.FindById(User.Identity.GetUserId<int>());

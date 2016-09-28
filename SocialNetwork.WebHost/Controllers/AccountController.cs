@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using SocialNetwork.WebHost.Models;
 using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
+using System.IO;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -154,6 +155,17 @@ namespace SocialNetwork.WebHost.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Profile = new Profile { FirstName = model.FirstName, LastName = model.LastName } };
+               
+                string fileName = HttpContext.Server.MapPath(@"~/Images/noImg.png");
+
+                byte[] imageData = null;
+                FileInfo fileInfo = new FileInfo(fileName);
+                long imageFileLength = fileInfo.Length;
+                FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                BinaryReader br = new BinaryReader(fs);
+                imageData = br.ReadBytes((int)imageFileLength);
+                user.Profile.UserPhoto = imageData;
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -394,7 +406,7 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //
