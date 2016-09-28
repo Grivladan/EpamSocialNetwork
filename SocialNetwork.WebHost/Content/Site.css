@@ -22,3 +22,20 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#ProfileImg{
+    width:160px;
+    height:160px;
+    background: #FFFFFF;
+    margin: auto;
+    -moz-border-radius: 60px;
+    padding: 6px;
+    box-shadow: 0px 0px 20px #888;
+}
+
+#navBarImg{
+    border-radius: 100px;
+    padding: 2px;
+    background: #FFFFFF;
+    margin: auto;
+}

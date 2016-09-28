@@ -19,11 +19,14 @@
                 </button>
                 @Html.ActionLink("SocNet", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="nav navbar-nav">
-                <div>
-                    <img src="@Url.Action("UserPhotos", "Profile" )" height="48" width="48" />
+            @if (Request.IsAuthenticated)
+            { 
+                <div class="nav navbar-nav">
+                    <div>
+                        <img src="@Url.Action("UserPhotos", "Profile" )" height="48" width="48" id="navBarImg"/>
+                    </div>
                 </div>
-            </div>
+            }
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")
             </div>
