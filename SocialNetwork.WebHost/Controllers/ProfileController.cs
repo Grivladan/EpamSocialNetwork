@@ -49,11 +49,11 @@ namespace SocialNetwork.WebHost.Controllers
             return View(profile);
         }
 
-        public FileContentResult UserPhotos()
+        public FileContentResult UserPhotos(int? id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                int userId = User.Identity.GetUserId<int>();
+                int userId = id ?? User.Identity.GetUserId<int>();
 
                 // to get the user details to load user Image
                 var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
