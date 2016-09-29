@@ -85,6 +85,16 @@ namespace SocialNetwork.WebHost.Controllers
             return View("GetAllUsers", model);
         }
 
+        public ActionResult AutocompleteSearch(string term)
+        {
+            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+
+            var users = manager.Users.Where(x => x.Profile.FirstName.Contains(term))
+                .Select(x => x.Profile.FirstName).ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult AddFriend(int id)
         {
             var currentUser = manager.FindById(User.Identity.GetUserId<int>());
