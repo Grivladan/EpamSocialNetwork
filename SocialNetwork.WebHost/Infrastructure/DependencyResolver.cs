@@ -9,6 +9,7 @@ namespace SocialNetwork.WebHost.Infrastructure
         public override void Load()
         {
             Kernel.Bind<IMessageService>().To<MessageService>();
+            Kernel.Bind<ICommentService>().To<CommentService>();
         }
     }
 }

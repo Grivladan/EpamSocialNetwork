@@ -9,6 +9,7 @@ namespace SocialNetwork.DataAccess.Interfaces
         IRepository<Message> Messages { get;}
         IRepository<Post> Posts { get;}
         IRepository<Profile> Profiles { get;}
+        IRepository<Comment> Comments { get; }
 
         ApplicationDbContext GetContext();
         void Save();

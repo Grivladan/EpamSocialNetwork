@@ -13,7 +13,7 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetPostsByUser(int id)
         {
-            var posts = context.Posts.Where(x => x.ApplicationUserId == id);
+            var posts = context.Posts.Where(x => x.ApplicationUserId == id).ToList();
             return View(posts);
         }
     }

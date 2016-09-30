@@ -103,9 +103,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\DependencyResolver.cs" />
+    <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
     <Compile Include="Interfaces\IPostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\MessageService.cs" />
     <Compile Include="Services\PostService.cs" />
   </ItemGroup>

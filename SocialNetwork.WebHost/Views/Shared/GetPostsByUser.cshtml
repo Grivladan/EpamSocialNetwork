@@ -1,0 +1,14 @@
+﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.Post>
+
+<ul class="posts">
+    @foreach (var post in Model) 
+    { 
+        <li>
+            <p>
+                <span class="username">@post.ApplicationUser.Profile.FirstName</span><br />
+            </p>
+            <p> @post.Text </p>
+            <p class="no-pad-bottom date-posted">Posted @post.Date</p>
+        </li>
+    }
+</ul>

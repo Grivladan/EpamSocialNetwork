@@ -20,6 +20,7 @@ namespace SocialNetwork.DataAccess.Repository
         private IRepository<Message> _messagesRepository;
         private IRepository<Post> _postsRepository;
         private IRepository<Profile> _profilesRepository;
+        private IRepository<Comment> _commentsRepository;
 
         public IRepository<Message> Messages
         {
@@ -43,6 +44,16 @@ namespace SocialNetwork.DataAccess.Repository
             {
                 return _profilesRepository ??
                        (_profilesRepository = _repositoryFactory.CreateRepository<Profile>(_context));
+            }
+        }
+
+
+        public IRepository<Comment> Comments
+        {
+            get
+            {
+                return  _commentsRepository ??
+                       (_commentsRepository = _repositoryFactory.CreateRepository<Comment>(_context));
             }
         }
 
