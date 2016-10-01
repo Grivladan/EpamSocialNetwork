@@ -46,7 +46,7 @@
             @Html.DisplayFor(modelItem => item.Profile.LastName)
         </td>
         <td>
-            <a href="@Url.Action("Create", "Message")" class="btn btn-success">
+            <a href="@Url.Action("Create", "Message", new { id = item.Id }, null)" class="btn btn-success">
                 Send message
                 <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
             </a>

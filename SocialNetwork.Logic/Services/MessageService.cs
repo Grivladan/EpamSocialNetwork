@@ -57,7 +57,7 @@ namespace SocialNetwork.Logic.Services
 
         public IEnumerable<Message> GetUserMessages(int id)
         {
-            var messages = _unitOfWork.Messages.Query.Where(x => x.Id == id || x.Receiver.Id == id);
+            var messages = _unitOfWork.Messages.Query.Where(x => x.ApplicationUserId == id || x.Receiver.Id == id);
             return messages;
         }
 
