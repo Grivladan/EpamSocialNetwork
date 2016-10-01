@@ -61,7 +61,7 @@ namespace SocialNetwork.Logic.Services
             return messages;
         }
 
-        public Message Update(int id, DataAccess.Entities.Message message)
+        public Message Update(int id, Message message)
         {
             throw new NotImplementedException();
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -27,7 +28,8 @@ namespace SocialNetwork.WebHost.Controllers
         {
             Comment comment = new Comment();
             comment.Text = formCollection["comment"];
-            comment.PostId = Convert.ToInt32(formCollection["PostId"]); 
+            comment.PostId = Convert.ToInt32(formCollection["PostId"]);
+            comment.ApplicationUserId = User.Identity.GetUserId<int>();
             _commentService.Create(comment);
             return RedirectToAction("GetUserById", "Home");
         }
