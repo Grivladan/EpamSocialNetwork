@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.Post>
 
 <ul class="posts">
-    @foreach (var post in Model) 
+    @foreach (var post in Model)
     { 
         <li>
             <p>
@@ -9,6 +9,18 @@
             </p>
             <p> @post.Text </p>
             <p class="no-pad-bottom date-posted">Posted @post.Date</p>
+            <form class="add-comment" action=@Url.Action("Create", "Comment") method="post">
+                <div class="row">
+                    <div class="col-md-9">
+                        <input type="hidden" id="postId" name="PostId" value='@post.Id' />
+                        <input type="text" class="form-control" name="comment" placeholder="Add a comment" />
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-default" type="submit">Add Comment</button>
+                    </div>
+                </div>
+            </form>
+            @{Html.RenderAction("GetCommentsToPost", "Comment", new { id = post.Id});}
         </li>
     }
 </ul>

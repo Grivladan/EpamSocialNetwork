@@ -1,5 +1,6 @@
 ﻿using System;
 using SocialNetwork.DataAccess.Interfaces;
+using System.Collections.Generic;
 
 namespace SocialNetwork.DataAccess.Entities
 {
@@ -12,10 +13,12 @@ namespace SocialNetwork.DataAccess.Entities
 
         public int? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual ICollection<Comment> Comments{ get; set;}
 
         public Post()
         {
             Date = DateTime.Now;
+            Comments = new List<Comment>();
         }
     }
 }

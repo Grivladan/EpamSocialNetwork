@@ -17,9 +17,17 @@ namespace SocialNetwork.WebHost.Controllers
             _commentService = commentService;
         }
 
-        [HttpPost]
-        public ActionResult Create(Comment comment)
+        public ActionResult Create()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(FormCollection formCollection)
+        {
+            Comment comment = new Comment();
+            comment.Text = formCollection["comment"];
+            comment.PostId = Convert.ToInt32(formCollection["PostId"]); 
             _commentService.Create(comment);
             return RedirectToAction("GetUserById", "Home");
         }

@@ -351,10 +351,10 @@
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\GetPostsByUser.cshtml" />
+    <Content Include="Views\Comment\GetCommentsToPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
