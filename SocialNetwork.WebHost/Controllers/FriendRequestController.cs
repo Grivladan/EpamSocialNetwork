@@ -34,10 +34,17 @@ namespace SocialNetwork.WebHost.Controllers
             return null;
         }
 
-        public ActionResult CheckOnWaitingRequest(int id)
+        public ActionResult HasWaitingRequest(int id)
         {
-            var requests = context.Requests.Where(x => x.RequestedTo == id);
-            return View();
+            var requests = context.Requests.Where(x => x.RequestedTo == id).ToList();
+            if (requests.Count !=0)
+            {
+                return Json( new { HasRequest = true },
+                    JsonRequestBehavior.AllowGet);
+            }
+
+            return Json( new { HasRequest = false },
+                 JsonRequestBehavior.AllowGet);
         }
         
     }
