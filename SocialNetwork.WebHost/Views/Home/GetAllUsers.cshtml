@@ -11,14 +11,14 @@
 
 <hr/>
 <div class="container-fluid">
-    <div class ="col-md-4">
+    <div class ="col-md-3">
         @Html.Partial("_Menu")
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-9">
         @if (@ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString() == "GetUserFriends")
         {
-            Html.RenderAction("GetRequests", "FriendRequest", new { id = User.Identity.GetUserId<int>() });
+            Html.RenderAction("GetRequestsById", "FriendRequest", new { id = User.Identity.GetUserId<int>() });
         }
 
         <h2>List of users</h2>
@@ -81,18 +81,18 @@
     </div>
 </div>
 
-    <script src='@Url.Content("~/Scripts/jquery-3.1.1.min.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery-3.1.1.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
 
-    <script type="text/javascript">
-        jQuery.noConflict();
-        (function ($) {
-            $(function () {
-                $("#txtSearch").autocomplete({
-                    source: '@Url.Action("AutocompleteSearch", "Home")',
-                    minLength: 1
-                });
+<script type="text/javascript">
+    jQuery.noConflict();
+    (function ($) {
+        $(function () {
+            $("#txtSearch").autocomplete({
+                source: '@Url.Action("AutocompleteSearch", "Home")',
+                minLength: 1
             });
-        })(jQuery);
-    </script>
+        });
+    })(jQuery);
+</script>
 

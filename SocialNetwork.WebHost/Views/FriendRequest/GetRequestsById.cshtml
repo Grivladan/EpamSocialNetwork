@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.FriendRequest>
+
+@{
+    Layout = null;
+}
+
+<link href='@Url.Content("~/Content/Site.css")' rel="stylesheet" type="text/css">
+
+<h3 style="text-align:center">New friends requests</h3>
+
+<ul style="width:500px">
+    @foreach (var request in Model)
+    {
+        <li class="request-list-elem">    
+            <div class="row">      
+                <div class="col-md-2">
+                    <img src="@Url.Action("UserPhotos", "Profile", new { id = request.RequestedFrom.Id})" height="58" width="58" id="profilePhoto" />
+                </div>
+                <div class="col-md-10 request-block">
+                    <div class="row inner-row">
+                        <span class="sender">@request.RequestedFrom.Profile.FirstName</span>
+                        <span style="float:right" class="date">@request.Date</span>
+                    </div>
+                    <div class="row request-handle">
+                        <a href="@Url.Action("Edit", "Profile", new { id = request.RequestedFrom.Id })" class="btn btn-success btn-sm">
+                            accept
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </a>
+                        <a href="@Url.Action("Edit", "Profile", new { id = request.RequestedFrom.Id })" class="btn btn-primary btn-sm rejectBtn" style="float:right">
+                            reject
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </li> 
+    }
+</ul>
+

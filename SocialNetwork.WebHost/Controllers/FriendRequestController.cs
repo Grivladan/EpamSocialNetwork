@@ -21,9 +21,9 @@ namespace SocialNetwork.WebHost.Controllers
             _manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
         }
 
-        public ActionResult GetRequests()
+        public ActionResult GetRequestsById(int id)
         {
-            var requests = context.Requests.Where(x => x.IsAccepted == false).ToList();
+            var requests = context.Requests.Where( x =>x.RequestedTo.Id ==id && x.IsAccepted == false).ToList();
             return View(requests);
         }
 
@@ -45,13 +45,8 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult HasWaitingRequest(int id)
         {
             var requests = context.Requests.Where(x => x.RequestedTo.Id == id && x.IsAccepted == false).ToList();
-            if (requests.Count !=0)
-            {
-                return Json( new { HasRequest = true },
-                    JsonRequestBehavior.AllowGet);
-            }
 
-            return Json( new { HasRequest = false },
+            return Json( new { countRequests = requests.Count },
                  JsonRequestBehavior.AllowGet);
         }
         

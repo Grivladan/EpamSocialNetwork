@@ -44,3 +44,40 @@ textarea {
     margin: auto;
 }
 
+.request-handle{
+    margin-top: 10px;
+}
+
+.request-list-elem{
+    background-color: #c9e0fc;
+    padding: 5px 5px;
+    border-radius:20px;
+    margin:0 0 5px 0;
+    position: relative;
+    left:115px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.sender {
+    font-weight: bold;
+    color: #ff6a00;
+}
+
+.date, .rejectBtn{
+    position:relative;
+    left:-25px;
+}
+
+.btn-sm{
+    width: 120px;
+}
+
+.inner-row{
+    position: relative;
+    left:5px;
+}
+
+

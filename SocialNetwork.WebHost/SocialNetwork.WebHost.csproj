@@ -352,10 +352,10 @@
     <Content Include="Views\Home\GetAllUsers.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Message\Create.cshtml" />
-    <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Shared\GetPostsByUser.cshtml" />
     <Content Include="Views\Comment\GetCommentsToPost.cshtml" />
-    <Content Include="Views\FriendRequest\GetRequests.cshtml" />
+    <Content Include="Views\FriendRequest\GetRequestsById.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

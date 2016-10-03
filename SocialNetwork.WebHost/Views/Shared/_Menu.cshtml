@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 
+<script src='@Url.Content("~/Scripts/jquery-3.1.1.min.js")' type="text/javascript"></script>
+
 <div class="row">
     <img src="@Url.Action("UserPhotos", "Profile")" id="ProfileImg" />
 </div>
@@ -16,6 +18,7 @@
             Friends
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
         </a>
+        <span id="requestCounter" hidden>1</span>
     </div>
     <div class="row">
         <a href="@Url.Action("GetUserMessages", "Message", new { id = User.Identity.GetUserId<int>() })" class="btn btn-primary btn-large">
@@ -25,7 +28,7 @@
         <span id="messageCounter" hidden>1</span>
     </div>
     <div class="row">
-        <a href="@Url.Action("GetUserById", "Home") "class="btn btn-primary btn-large">
+        <a href="@Url.Action("GetUserById", "Home") " class="btn btn-primary btn-large">
             Posts
             <i class="glyphicon glyphicon-list-alt"></i>
         </a>
@@ -41,4 +44,14 @@
                 $("#messageCounter").html(data.countMessages);
             }
         });
+
+    $.getJSON(
+         "@Url.Action("HasWaitingRequest", "FriendRequest", new { id = User.Identity.GetUserId<int>()})",
+         function(data) {
+             if (data.countRequests != 0) {
+                 document.getElementById("requestCounter").hidden = false;
+                 $("#requestCounter").html(data.countRequests);
+             }
+    });
 </script>
+
