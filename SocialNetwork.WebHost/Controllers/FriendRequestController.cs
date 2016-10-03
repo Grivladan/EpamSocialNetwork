@@ -12,11 +12,19 @@ namespace SocialNetwork.WebHost.Controllers
     public class FriendRequestController : Controller
     {
         // GET: Friend
-        ApplicationDbContext context = new ApplicationDbContext();
+        ApplicationDbContext context;
+        UserManager<ApplicationUser, int> _manager;
 
-        public ActionResult Index()
+        public FriendRequestController()
         {
-            return View();
+            context = new ApplicationDbContext();
+            _manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+        }
+
+        public ActionResult GetRequests()
+        {
+            var requests = context.Requests.Where(x => x.IsAccepted == false).ToList();
+            return View(requests);
         }
 
         [HttpPost]
@@ -24,8 +32,8 @@ namespace SocialNetwork.WebHost.Controllers
         {
             var request = new FriendRequest()
             {
-                RequestedFrom = User.Identity.GetUserId<int>(),
-                RequestedTo = friendUserId,
+                RequestedFrom = _manager.FindById(User.Identity.GetUserId<int>()),
+                RequestedTo = _manager.FindById(friendUserId),
                 Date = DateTime.Now
             };
             context.Requests.Add(request);
@@ -36,7 +44,7 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult HasWaitingRequest(int id)
         {
-            var requests = context.Requests.Where(x => x.RequestedTo == id).ToList();
+            var requests = context.Requests.Where(x => x.RequestedTo.Id == id && x.IsAccepted == false).ToList();
             if (requests.Count !=0)
             {
                 return Json( new { HasRequest = true },

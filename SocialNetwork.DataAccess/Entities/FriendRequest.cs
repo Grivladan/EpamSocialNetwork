@@ -7,9 +7,15 @@ namespace SocialNetwork.DataAccess.Entities
     {
         [Key]
         public int RequestId { get; set; }
-        public int RequestedFrom{ get; set; }
-        public int RequestedTo { get; set; }
+        public virtual ApplicationUser RequestedFrom{ get; set; }
+        public virtual ApplicationUser RequestedTo { get; set; }
         public DateTime Date { get; set; }
         public bool IsAccepted { get; set; }
+
+        public FriendRequest()
+        {
+            Date = DateTime.Now;
+            IsAccepted = false;
+        }
     }
 }

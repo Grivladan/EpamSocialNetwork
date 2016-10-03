@@ -36,6 +36,14 @@ namespace SocialNetwork.WebHost.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult HasUnreadedMessages(int id)
+        {
+            var countMessages = _messageService.CountUnreadMessages(id);
+
+            return Json(new { countMessages },
+                 JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GetUserMessages(int id)
         {
             var messages = _messageService.GetUserMessages(id);

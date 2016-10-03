@@ -97,10 +97,7 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult AddFriend(int id)
         {
-            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
-            var requestedUser = manager.FindById(id);
-            CreateFriendRequest(currentUser.Id, requestedUser.Id);
-            currentUser.Friends.Add(requestedUser);
+            CreateFriendRequest(User.Identity.GetUserId<int>(), id);
             /*requestedUser.Friends.Add(currentUser);
             manager.Update(currentUser);
             manager.Update(requestedUser);
@@ -112,11 +109,11 @@ namespace SocialNetwork.WebHost.Controllers
         {
             var request = new FriendRequest()
             {
-                RequestedFrom = userId,
-                RequestedTo = friendUserId,
+                RequestedFrom = manager.FindById(userId),
+                RequestedTo = manager.FindById(friendUserId),
                 Date = DateTime.Now
             };
-            SendRequest();
+
             context.Requests.Add(request);
             context.SaveChanges();
         }

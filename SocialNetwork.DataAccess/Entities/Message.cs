@@ -12,10 +12,12 @@ namespace SocialNetwork.DataAccess.Entities
         public int? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual ApplicationUser Receiver { get; set; }
+        public bool isReaded { get; set; }
 
         public Message()
         {
             Date = DateTime.Now;
+            isReaded = false;
         }
     }
 }

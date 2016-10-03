@@ -11,6 +11,7 @@ namespace SocialNetwork.Logic.Interfaces
         Message Create(Message message);
         Message Update(int id, Message message);
         void SendMessage(Message message, int fromId, int toId);
+        int CountUnreadMessages(int id);
 
         void Dispose();
     }
