@@ -32,16 +32,31 @@ namespace SocialNetwork.WebHost.Controllers
             if (ModelState.IsValid)
             {
                 byte[] imageData = null;
+
                 if (Request.Files.Count > 0)
                 {
                     HttpPostedFileBase poImgFile = Request.Files["UserPhoto"] ;
-                    using (var binary = new BinaryReader(poImgFile.InputStream))
+                    if (poImgFile != null && poImgFile.ContentLength > 0)
                     {
-                        imageData = binary.ReadBytes(poImgFile.ContentLength);
+                        using (var binary = new BinaryReader(poImgFile.InputStream))
+                        {
+                            imageData = binary.ReadBytes(poImgFile.ContentLength);
+                        }
                     }
                 }
 
-                profile.UserPhoto = imageData;
+                if (imageData != null)
+                {
+                    profile.UserPhoto = imageData;
+                }
+                else
+                {
+                    int userId = User.Identity.GetUserId<int>();
+                    var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                    var userProfile = bdUsers.Users.Where(x => x.Id == userId).FirstOrDefault().Profile;
+                    profile.UserPhoto = userProfile.UserPhoto;
+                }
+
                 context.Entry(profile).State = EntityState.Modified;
                 context.SaveChanges();
                 return RedirectToAction("GetUserById", "Home");

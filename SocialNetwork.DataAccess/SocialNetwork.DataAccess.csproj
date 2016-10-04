@@ -74,6 +74,7 @@
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\FriendRequest.cs" />
+    <Compile Include="Entities\Gender.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Post.cs" />
     <Compile Include="Entities\Profile.cs" />
