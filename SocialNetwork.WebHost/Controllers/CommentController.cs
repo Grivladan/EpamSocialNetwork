@@ -18,11 +18,6 @@ namespace SocialNetwork.WebHost.Controllers
             _commentService = commentService;
         }
 
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Create(FormCollection formCollection)
         {

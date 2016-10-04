@@ -10,6 +10,8 @@ namespace SocialNetwork.WebHost.Infrastructure
         {
             Kernel.Bind<IMessageService>().To<MessageService>();
             Kernel.Bind<ICommentService>().To<CommentService>();
+            Kernel.Bind<IUserService>().To<UserService>();
+            Kernel.Bind<IPostService>().To<PostService>();
         }
     }
 }

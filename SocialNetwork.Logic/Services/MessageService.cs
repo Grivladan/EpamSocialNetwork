@@ -13,13 +13,10 @@ namespace SocialNetwork.Logic.Services
     public class MessageService : IMessageService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<ApplicationUser, int> _manager;
-
 
         public MessageService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _manager = new UserManager<ApplicationUser, int>(new CustomUserStore(_unitOfWork.GetContext()));
         }
 
         public IEnumerable<Message> GetAll()
@@ -47,8 +44,8 @@ namespace SocialNetwork.Logic.Services
 
         public void SendMessage(Message message, int fromId, int toId)
         {
-            message.ApplicationUser = _manager.FindById(fromId);
-            var userTo = _manager.FindById(toId);
+            message.ApplicationUser = _unitOfWork.UserManager.FindById(fromId);
+            var userTo = _unitOfWork.UserManager.FindById(toId);
             message.Receiver = userTo;
 
             _unitOfWork.Messages.Create(message);

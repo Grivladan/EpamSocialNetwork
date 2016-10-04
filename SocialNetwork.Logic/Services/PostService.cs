@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Logic.Services
@@ -33,6 +34,7 @@ namespace SocialNetwork.Logic.Services
 
         public void Create(Post post)
         {
+             post.ApplicationUser = _unitOfWork.UserManager.FindById(post.ApplicationUserId??0);
             _unitOfWork.Posts.Create(post);
             _unitOfWork.Save();
         }
@@ -47,14 +49,16 @@ namespace SocialNetwork.Logic.Services
             throw new NotImplementedException();
         }
 
-        /*public IEnumerable<Post> GetPostsByUser(ApplicationUser user)
-        {
-            return _unitOfWork.Posts.Query.Where(x => x.ApplicationUser == user);
-        }*/
-
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _unitOfWork.Dispose();
+        }
+
+
+        public IEnumerable<Post> GetPostsByUser(int id)
+        {
+            var posts = _unitOfWork.Posts.Query.Where(x => x.ApplicationUserId == id).ToList();
+            return posts;
         }
     }
 }

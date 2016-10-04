@@ -23,7 +23,7 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetRequestsById(int id)
         {
-            var requests = context.Requests.Where( x =>x.RequestedTo.Id ==id && x.IsAccepted == false).ToList();
+            var requests = context.Requests.Where( x => x.RequestedTo.Id == id && x.IsAccepted == false).ToList();
             return View(requests);
         }
 
@@ -38,8 +38,19 @@ namespace SocialNetwork.WebHost.Controllers
             };
             context.Requests.Add(request);
             context.SaveChanges();
-
             return null;
+        }
+
+        public ActionResult Reject(int id)
+        {
+            context.Requests.Remove(x => x.Id == id);
+            context.SaveChanges();
+            return RedirectToAction("GetUserFriens", "Home");
+        }
+
+        public ActionResult Accept(int id)
+        {
+
         }
 
         public ActionResult HasWaitingRequest(int id)

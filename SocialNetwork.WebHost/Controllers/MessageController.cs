@@ -32,7 +32,6 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult Create(Message message, int id)
         {
             _messageService.SendMessage(message, User.Identity.GetUserId<int>(), id);
-            SendMessage("You get new message");
             return RedirectToAction("Index");
         }
 
@@ -50,10 +49,5 @@ namespace SocialNetwork.WebHost.Controllers
             return View("Index", messages);
         }
 
-        private void SendMessage(string message)
-        {
-            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            context.Clients.All.displayMessage(message);
-        }
     }
 }

@@ -10,12 +10,10 @@ namespace SocialNetwork.Logic.Services
     public class CommentService : ICommentService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserManager<ApplicationUser, int> _manager;
 
         public CommentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _manager = new UserManager<ApplicationUser, int>(new CustomUserStore(_unitOfWork.GetContext()));
         }
 
         public IEnumerable<Comment> GetAll()
@@ -26,7 +24,7 @@ namespace SocialNetwork.Logic.Services
 
         public Comment Create(Comment comment)
         {
-            comment.ApplicationUser = _manager.FindById(comment.ApplicationUserId);
+            comment.ApplicationUser = _unitOfWork.UserManager.FindById(comment.ApplicationUserId);
             _unitOfWork.Comments.Create(comment);
             _unitOfWork.Save();
 
@@ -41,7 +39,7 @@ namespace SocialNetwork.Logic.Services
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            _unitOfWork.Dispose();
         }
     }
 }

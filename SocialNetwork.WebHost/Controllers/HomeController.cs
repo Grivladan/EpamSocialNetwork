@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
-using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
-using SocialNetwork.WebHost.Hubs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using SocialNetwork.Logic.Interfaces;
 using System.Web.Mvc;
 
 namespace SocialNetwork.WebHost.Controllers
@@ -15,13 +9,13 @@ namespace SocialNetwork.WebHost.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        private ApplicationDbContext context;
-        private UserManager<ApplicationUser, int> manager;
+        private readonly IUserService _userService;
+        private readonly IPostService _postService;
 
-        public HomeController()
+        public HomeController(IUserService userService, IPostService postService)
         {
-            context = new ApplicationDbContext();
-            manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+            _userService = userService;
+            _postService = postService;
         }
 
         public ActionResult Index()
@@ -33,37 +27,36 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetUserById()
         {
-            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
+            var currentUser = _userService.GetById(User.Identity.GetUserId<int>());
             return View(currentUser);
         }
 
         [HttpPost]
         public ActionResult GetUserById(FormCollection formCollection)
         {
-            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
+            var currentUser = _userService.GetById(User.Identity.GetUserId<int>());
             if (ModelState.IsValid)
             {
                 Post post = new Post();
                 post.Text = formCollection["Post"];
                 post.ApplicationUser = currentUser;
-                context.Posts.Add(post);
-                context.SaveChanges();
+                _postService.Create(post);
             }
             return View("GetUserById", currentUser);
         }
 
         public ActionResult GetUserFriends(int page = 1, int pageSize = 1)
         {
-            var currentUser = manager.FindById(User.Identity.GetUserId<int>());
+            var friends = _userService.GetFriends(User.Identity.GetUserId<int>());
 
-            PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(currentUser.Friends, page, pageSize);
+            PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(friends, page, pageSize);
 
             return View("GetAllUsers", model );
         }
 
         public ActionResult GetAllUsers(int page = 1, int pageSize = 1)
         {
-            var users = manager.Users.ToList();
+            var users = _userService.GetAll();
 
             PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
 
@@ -72,13 +65,7 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult Search(string searchString, int page = 1, int pageSize = 1)
         {
-            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
-            var users = manager.Users.ToList();
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                users = users.Where(x => x.Profile.FirstName.Contains(searchString)).ToList();
-            }
+            var users = _userService.Search(searchString);
 
             PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
 
@@ -87,21 +74,14 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult AutocompleteSearch(string term)
         {
-            var manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
-
-            var users = manager.Users.Where(x => x.Profile.FirstName.Contains(term))
-                .Select(x => x.Profile.FirstName).ToList();
+            var users = _userService.Search(term);
 
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddFriend(int id)
+       /* public ActionResult AddFriend(int id)
         {
             CreateFriendRequest(User.Identity.GetUserId<int>(), id);
-            /*requestedUser.Friends.Add(currentUser);
-            manager.Update(currentUser);
-            manager.Update(requestedUser);
-            context.SaveChanges();*/
             return RedirectToAction("GetAllUsers");
         }
 
@@ -116,12 +96,7 @@ namespace SocialNetwork.WebHost.Controllers
 
             context.Requests.Add(request);
             context.SaveChanges();
-        }
+        }*/
 
-        private void SendRequest()
-        {
-            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            context.Clients.All.displayMessage("You get friend request");
-        }
     }
 }
