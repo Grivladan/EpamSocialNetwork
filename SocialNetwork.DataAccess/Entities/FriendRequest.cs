@@ -6,10 +6,10 @@ namespace SocialNetwork.DataAccess.Entities
 {
     public class FriendRequest : IEntity
     {
-        [Key]
         public int Id { get; set; }
-        public virtual ApplicationUser RequestedFrom{ get; set; }
-        public virtual ApplicationUser RequestedTo { get; set; }
+        public int ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser{ get; set; }
+        public int RequestedTo{ get; set; }
         public DateTime Date { get; set; }
         public bool IsAccepted { get; set; }
 

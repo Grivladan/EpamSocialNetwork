@@ -23,39 +23,46 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetRequestsById(int id)
         {
-            var requests = context.Requests.Where( x => x.RequestedTo.Id == id && x.IsAccepted == false).ToList();
+            var requests = context.Requests.Where( x => x.RequestedTo == id && x.IsAccepted == false).ToList();
             return View(requests);
         }
 
-        [HttpPost]
         public ActionResult Create(int friendUserId)
         {
             var request = new FriendRequest()
             {
-                RequestedFrom = _manager.FindById(User.Identity.GetUserId<int>()),
-                RequestedTo = _manager.FindById(friendUserId),
+                ApplicationUser = _manager.FindById(User.Identity.GetUserId<int>()),
+                RequestedTo = friendUserId,
                 Date = DateTime.Now
             };
             context.Requests.Add(request);
             context.SaveChanges();
-            return null;
+            return RedirectToAction("GetUserFriends", "Home");
         }
 
         public ActionResult Reject(int id)
         {
-            context.Requests.Remove(x => x.Id == id);
+            var request = context.Requests.FirstOrDefault( x => x.Id == id);
+            context.Requests.Remove(request);
             context.SaveChanges();
-            return RedirectToAction("GetUserFriens", "Home");
+            return RedirectToAction("GetUserFriends", "Home");
         }
 
         public ActionResult Accept(int id)
         {
-
+            var request = context.Requests.FirstOrDefault( x => x.Id == id);
+            var userFrom = _manager.FindById(request.ApplicationUser.Id);
+            var userTo = _manager.FindById(request.RequestedTo);
+            userFrom.Friends.Add(userTo);
+            userTo.Friends.Add(userFrom);
+            request.IsAccepted = true;
+            context.SaveChanges();
+            return RedirectToAction("GetUserFriends", "Home");
         }
 
         public ActionResult HasWaitingRequest(int id)
         {
-            var requests = context.Requests.Where(x => x.RequestedTo.Id == id && x.IsAccepted == false).ToList();
+            var requests = context.Requests.Where(x => x.RequestedTo == id && x.IsAccepted == false).ToList();
 
             return Json( new { countRequests = requests.Count },
                  JsonRequestBehavior.AllowGet);

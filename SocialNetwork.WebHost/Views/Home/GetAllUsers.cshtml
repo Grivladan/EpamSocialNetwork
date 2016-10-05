@@ -64,7 +64,7 @@
                             Send message
                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                         </a>
-                        <a href="@Url.Action("AddFriend", new { id = item.Id })" class="btn btn-primary">
+                        <a href="@Url.Action("Create", "FriendRequest", new { friendUserId = item.Id }, null)" class="btn btn-primary">
                             Add friend
                             <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                         </a>
