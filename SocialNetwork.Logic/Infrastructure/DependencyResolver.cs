@@ -9,8 +9,6 @@ namespace SocialNetwork.Logic.Infrastructure
     {
         public override void Load()
         {
-            //Kernel.Bind<IUserStore<ApplicationUser, int>>().To<UserStore<ApplicationUser>>();
-           // Kernel.Bind<UserManager<ApplicationUser, int>>().ToSelf();
         }
     }
 }

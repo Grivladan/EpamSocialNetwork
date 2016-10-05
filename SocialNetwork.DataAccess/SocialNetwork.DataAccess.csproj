@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationDbContext.cs" />
+    <Compile Include="EF\DbInitializer.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\FriendRequest.cs" />

@@ -25,7 +25,7 @@ namespace SocialNetwork.DataAccess.Repository
         private IRepository<Comment> _commentsRepository;
         private IRepository<FriendRequest> _requestsRepository;
 
-        public new UserManager<ApplicationUser, int> UserManager
+        public UserManager<ApplicationUser, int> UserManager
         {
             get
             {
