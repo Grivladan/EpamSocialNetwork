@@ -11,6 +11,5 @@ namespace SocialNetwork.Logic.Interfaces
     {
         Profile GetById(int id);
         void Update(int id, Profile profile);
-
     }
 }

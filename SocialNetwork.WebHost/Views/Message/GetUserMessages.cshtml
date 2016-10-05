@@ -1,4 +1,8 @@
-﻿@model IEnumerable<SocialNetwork.DataAccess.Entities.Message>
+﻿@{
+    ViewBag.Title = "GetUserMessages";
+}
+
+@model IEnumerable<SocialNetwork.DataAccess.Entities.Message>
 @using Microsoft.AspNet.Identity;
 
 <link type="text/css" rel="stylesheet" href="~/Content/MessageStyles.css" />
@@ -12,13 +16,13 @@
         <a href="@Url.Action("GetAllUsers", "Home")" class="btn btn-success">
             Write new message
             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-        </a> <br/>
+        </a> <br />
         <h3>My messages</h3>
         <div class="messages">
             <ul class="list-unstyled">
                 @foreach (var message in Model)
                 {
-                    <li>
+                    <li class="@(message.ApplicationUserId == User.Identity.GetUserId<int>()? "outgoing":"incoming")">
                         <p>
                             <div class="row">
                                 <img src="@Url.Action("UserPhotos", "Profile", new { id = message.ApplicationUserId})" height="58" width="58" id="profilePhoto" />
@@ -33,3 +37,5 @@
         </div>
     </div>
 </div>
+
+

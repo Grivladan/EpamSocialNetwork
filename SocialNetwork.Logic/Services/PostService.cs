@@ -39,14 +39,21 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Save();
         }
 
-        public Post Update(int id, Post post)
+        public Post Update(int id, Post newPost)
         {
-            throw new NotImplementedException();
+            var post = _unitOfWork.Posts.GetById(id);
+            if (post == null)
+                return null;
+
+            post.Text = newPost.Text;
+            _unitOfWork.Save();
+            return post;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            _unitOfWork.Posts.Delete(id);
+            _unitOfWork.Save();
         }
 
         public void Dispose()

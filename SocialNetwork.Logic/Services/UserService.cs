@@ -31,13 +31,25 @@ namespace SocialNetwork.Logic.Services
             return users;
         }
 
-        public IEnumerable<DataAccess.Entities.ApplicationUser> Search(string searchString)
+        public IEnumerable<DataAccess.Entities.ApplicationUser> Search(string searchString, string country,
+                        string city)
         {
             var users = _unitOfWork.UserManager.Users.ToList();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                users = users.Where(x => x.Profile.FirstName.Contains(searchString)).ToList();
+                users = users.Where(x => x.Profile.FirstName.Contains(searchString) 
+                    || x.Profile.LastName.Contains(searchString)).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(city))
+            {
+                users = users.Where(x => x.Profile.City != null && x.Profile.City.Contains(city)).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(country))
+            {
+                users = users.Where( x => x.Profile.Country != null && x.Profile.Country.Contains(country)).ToList();
             }
 
             return users;

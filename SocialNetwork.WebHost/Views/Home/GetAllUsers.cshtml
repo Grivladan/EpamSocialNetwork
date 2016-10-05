@@ -16,22 +16,20 @@
     </div>
 
     <div class="col-md-9">
-        @if (@ViewContext.Controller.ValueProvider.GetValue("action").RawValue.ToString() == "GetUserFriends")
-        {
-            Html.RenderAction("GetRequestsById", "FriendRequest", new { id = User.Identity.GetUserId<int>() });
-        }
-
-        <h2>List of users</h2>
 
         @using (Html.BeginForm("Search", "Home"))
         {
             <p>
                 <div class="row">
-                    FirstName: @Html.TextBox("searchString", null, new { id = "txtSearch" })
-                    <input type="submit" value="Filter" />
+                        Name: @Html.TextBox("searchString", null , new { id = "txtSearch" })
+                        Country: @Html.TextBox("country", null, new { id = "country" })
+                        City: @Html.TextBox("city", null, new { id = "city" })
+                        <input type="submit" value="Filter" />
                 </div>
             </p>
         }
+
+        <h3>List of users</h3>
 
         <table class="table">
             <tr>

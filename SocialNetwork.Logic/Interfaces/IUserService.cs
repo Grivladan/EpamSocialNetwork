@@ -7,7 +7,7 @@ namespace SocialNetwork.Logic.Interfaces
     {
         ApplicationUser GetById(int id);
         IEnumerable<ApplicationUser> GetAll();
-        IEnumerable<ApplicationUser> Search(string searchString);
+        IEnumerable<ApplicationUser> Search(string searchString, string city, string country);
         IEnumerable<ApplicationUser> GetFriends(int id);
     }
 }

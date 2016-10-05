@@ -30,7 +30,6 @@ namespace SocialNetwork.Logic.Services
             var message = _unitOfWork.Messages.GetById(id);
             if(message == null)
                 return null;
-
             return message;
         }
 
@@ -67,15 +66,26 @@ namespace SocialNetwork.Logic.Services
             return countMessages;
         }
 
-        public Message Update(int id, Message message)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Dispose()
         {
             _unitOfWork.Dispose();
         }
 
+        public Message Update(int id, Message newMessage)
+        {
+            var message = _unitOfWork.Messages.GetById(id);
+            if (message == null)
+                return null;
+
+            message.Text = newMessage.Text;
+            _unitOfWork.Save();
+            return message;
+        }
+
+        public void Remove(int id)
+        {
+            _unitOfWork.Messages.Delete(id);
+            _unitOfWork.Save();
+        }
     }
 }

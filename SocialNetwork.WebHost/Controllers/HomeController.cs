@@ -45,16 +45,16 @@ namespace SocialNetwork.WebHost.Controllers
             return View("GetUserById", currentUser);
         }
 
-        public ActionResult GetUserFriends(int page = 1, int pageSize = 1)
+        public ActionResult GetUserFriends(int page = 1, int pageSize = 3)
         {
             var friends = _userService.GetFriends(User.Identity.GetUserId<int>());
 
             PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(friends, page, pageSize);
 
-            return View("GetAllUsers", model );
+            return View(model);
         }
 
-        public ActionResult GetAllUsers(int page = 1, int pageSize = 1)
+        public ActionResult GetAllUsers(int page = 1, int pageSize = 3)
         {
             var users = _userService.GetAll();
 
@@ -63,39 +63,21 @@ namespace SocialNetwork.WebHost.Controllers
             return View(model);
         }
 
-        public ActionResult Search(string searchString, int page = 1, int pageSize = 1)
+        public ActionResult Search(string searchString, string country, string city,
+            int page = 1, int pageSize = 1)
         {
-            var users = _userService.Search(searchString);
+            var users = _userService.Search(searchString, country, city);
 
             PagedList<ApplicationUser> model = new PagedList<ApplicationUser>(users, page, pageSize);
 
             return View("GetAllUsers", model);
         }
 
-        public ActionResult AutocompleteSearch(string term)
+      /*  public ActionResult AutocompleteSearch(string term)
         {
             var users = _userService.Search(term);
 
             return Json(users, JsonRequestBehavior.AllowGet);
-        }
-
-       /* public ActionResult AddFriend(int id)
-        {
-            CreateFriendRequest(User.Identity.GetUserId<int>(), id);
-            return RedirectToAction("GetAllUsers");
-        }
-
-        public void CreateFriendRequest(int userId, int friendUserId)
-        {
-            var request = new FriendRequest()
-            {
-                RequestedFrom = manager.FindById(userId),
-                RequestedTo = manager.FindById(friendUserId),
-                Date = DateTime.Now
-            };
-
-            context.Requests.Add(request);
-            context.SaveChanges();
         }*/
 
     }

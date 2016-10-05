@@ -1,6 +1,7 @@
 ﻿using System;
 using SocialNetwork.DataAccess.Interfaces;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.DataAccess.Entities
 {
@@ -8,6 +9,8 @@ namespace SocialNetwork.DataAccess.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "You can't write empty post")]
         public string Text { get; set; }
         public DateTime Date { get; set; }
 

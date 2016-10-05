@@ -35,6 +35,18 @@ namespace SocialNetwork.WebHost.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Remove(int id)
+        {
+            _messageService.Remove(id);
+            return RedirectToAction("Index", "Message");
+        }
+
+        public ActionResult Edit(Message message)
+        {
+            _messageService.Update(message.Id, message);
+            return RedirectToAction("Index", "Message");
+        }
+
         public ActionResult HasUnreadedMessages(int id)
         {
             var countMessages = _messageService.CountUnreadMessages(id);
@@ -46,7 +58,7 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult GetUserMessages(int id)
         {
             var messages = _messageService.GetUserMessages(id);
-            return View("Index", messages);
+            return View(messages);
         }
 
     }
