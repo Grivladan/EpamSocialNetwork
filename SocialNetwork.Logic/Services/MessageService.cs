@@ -53,7 +53,8 @@ namespace SocialNetwork.Logic.Services
 
         public IEnumerable<Message> GetUserMessages(int id)
         {
-            var messages = _unitOfWork.Messages.Query.Where(x => x.ApplicationUserId == id || x.Receiver.Id == id).ToList();
+            var messages = _unitOfWork.Messages.Query.Where(x => x.ApplicationUserId == id || x.Receiver.Id == id)
+                .OrderByDescending(m => m.Date).ToList();
             messages.Select( m => { m.isReaded = true; return m; }).ToList();
             _unitOfWork.Save();
 

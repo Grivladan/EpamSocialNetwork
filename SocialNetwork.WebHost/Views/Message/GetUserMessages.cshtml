@@ -26,7 +26,8 @@
                         <p>
                             <div class="row">
                                 <img src="@Url.Action("UserPhotos", "Profile", new { id = message.ApplicationUserId})" height="58" width="58" id="profilePhoto" />
-                                <span class="author">@message.ApplicationUser.Profile.FirstName</span>
+                                 <span class="author">@message.ApplicationUser.Profile.FirstName</span>
+                                 send to <span class="author">@message.Receiver.Profile.FirstName</span>
                                 <span style="float:right" class="date">Written @message.Date</span>
                             </div> <br />
                             <span>@message.Text</span>

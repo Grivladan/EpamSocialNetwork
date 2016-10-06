@@ -16,7 +16,7 @@ namespace SocialNetwork.WebHost.Controllers
         {
             _messageService = messageService;
         }
-        // GET: Message
+        
         public ActionResult Index()
         {
             var messages = _messageService.GetAll();
@@ -32,7 +32,7 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult Create(Message message, int id)
         {
             _messageService.SendMessage(message, User.Identity.GetUserId<int>(), id);
-            return RedirectToAction("Index");
+            return RedirectToAction("GetUserMessages", new { id = id});
         }
 
         public ActionResult Remove(int id)

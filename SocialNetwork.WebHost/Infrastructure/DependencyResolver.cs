@@ -12,6 +12,7 @@ namespace SocialNetwork.WebHost.Infrastructure
             Kernel.Bind<ICommentService>().To<CommentService>();
             Kernel.Bind<IUserService>().To<UserService>();
             Kernel.Bind<IPostService>().To<PostService>();
+            Kernel.Bind<IFriendRequestService>().To<FriendRequestService>();
         }
     }
 }

@@ -6,65 +6,49 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using SocialNetwork.DataAccess.Entities;
+using SocialNetwork.Logic.Interfaces;
 
 namespace SocialNetwork.WebHost.Controllers
 {
     public class FriendRequestController : Controller
     {
-        // GET: Friend
-        ApplicationDbContext context;
-        UserManager<ApplicationUser, int> _manager;
+        private readonly IFriendRequestService _friendRequestService;
 
-        public FriendRequestController()
+        public FriendRequestController(IFriendRequestService friendRequestService)
         {
-            context = new ApplicationDbContext();
-            _manager = new UserManager<ApplicationUser, int>(new CustomUserStore(context));
+           _friendRequestService = friendRequestService;
         }
 
         public ActionResult GetRequestsById(int id)
         {
-            var requests = context.Requests.Where( x => x.RequestedTo == id && x.IsAccepted == false).ToList();
+            var requests = _friendRequestService.GetRequestsById(id);
+
             return View(requests);
         }
 
         public ActionResult Create(int friendUserId)
         {
-            var request = new FriendRequest()
-            {
-                ApplicationUser = _manager.FindById(User.Identity.GetUserId<int>()),
-                RequestedTo = friendUserId,
-                Date = DateTime.Now
-            };
-            context.Requests.Add(request);
-            context.SaveChanges();
+            var request = _friendRequestService.Create(User.Identity.GetUserId<int>(),friendUserId); 
             return RedirectToAction("GetUserFriends", "Home");
         }
 
         public ActionResult Reject(int id)
         {
-            var request = context.Requests.FirstOrDefault( x => x.Id == id);
-            context.Requests.Remove(request);
-            context.SaveChanges();
+            _friendRequestService.Reject(id);
             return RedirectToAction("GetUserFriends", "Home");
         }
 
         public ActionResult Accept(int id)
         {
-            var request = context.Requests.FirstOrDefault( x => x.Id == id);
-            var userFrom = _manager.FindById(request.ApplicationUser.Id);
-            var userTo = _manager.FindById(request.RequestedTo);
-            userFrom.Friends.Add(userTo);
-            userTo.Friends.Add(userFrom);
-            request.IsAccepted = true;
-            context.SaveChanges();
+            _friendRequestService.Accept(id);
             return RedirectToAction("GetUserFriends", "Home");
         }
 
         public ActionResult HasWaitingRequest(int id)
         {
-            var requests = context.Requests.Where(x => x.RequestedTo == id && x.IsAccepted == false).ToList();
+            var count = _friendRequestService.HasWaitingRequest(id);
 
-            return Json( new { countRequests = requests.Count },
+            return Json( new { countRequests = count },
                  JsonRequestBehavior.AllowGet);
         }
         
