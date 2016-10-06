@@ -33,7 +33,7 @@ namespace SocialNetwork.Logic.Services
 
         public IEnumerable<Comment> GetCommentsToPost(int id)
         {
-            var comments = _unitOfWork.Comments.Query.Where( x => x.PostId == id).ToList();
+            var comments = _unitOfWork.Comments.Query.Where( x => x.PostId == id).OrderByDescending(x => x.CommentDate).ToList();
             return comments;
         }
 

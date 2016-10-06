@@ -15,16 +15,18 @@
         </div>
 
         <div class="col-md-8">
-            <div class="new-post pad-bottom">
-                @using (Html.BeginForm("Create", "Post"))
-                {
-                    <div class="form-group">
-                        <label for="post">Write a new post:</label>
-                        <textarea class="form-control" name="Post" id="post" placeholder="New post"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                }
-            </div>
+            @if(Model.Id == User.Identity.GetUserId<int>()){
+                <div class="new-post pad-bottom">
+                    @using (Html.BeginForm("Create", "Post"))
+                    {
+                        <div class="form-group">
+                            <label for="post">Write a new post:</label>
+                            <textarea class="form-control" name="Post" id="post" placeholder="New post"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    }
+                </div>
+            }
             @{Html.RenderAction("GetPostsByUser", "Post", new { id = Model.Id });}
         </div>
     </div>

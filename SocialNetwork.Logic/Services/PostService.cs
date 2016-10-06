@@ -61,10 +61,9 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Dispose();
         }
 
-
         public IEnumerable<Post> GetPostsByUser(int id)
         {
-            var posts = _unitOfWork.Posts.Query.Where(x => x.ApplicationUserId == id).ToList();
+            var posts = _unitOfWork.Posts.Query.Where(x => x.ApplicationUserId == id).OrderByDescending(x => x.Date).ToList();
             return posts;
         }
     }

@@ -37,10 +37,7 @@
                     @Html.DisplayNameFor(model => model.First().Profile.UserPhoto)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.First().Profile.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().Profile.LastName)
+                    Name
                 </th>
                 <th></th>
             </tr>
@@ -52,11 +49,7 @@
                         <img src="@Url.Action("UserPhotos", "Profile", new { id = item.Id})" height="58" width="58" id="profilePhoto" />
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Profile.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Profile.LastName)
-                    </td>
+                        @Html.ActionLink(item.Profile.FirstName + " " + item.Profile.LastName, "GetUserById",  new { id = item.Id})
                     <td>
                         <a href="@Url.Action("Create", "Message", new { id = item.Id }, null)" class="btn btn-success">
                             Send message

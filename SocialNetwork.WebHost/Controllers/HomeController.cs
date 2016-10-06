@@ -25,9 +25,10 @@ namespace SocialNetwork.WebHost.Controllers
             return RedirectToAction("Login", "Account", null);
         }
 
-        public ActionResult GetUserById()
+        public ActionResult GetUserById(int? id)
         {
-            var currentUser = _userService.GetById(User.Identity.GetUserId<int>());
+            var userId = id ?? User.Identity.GetUserId<int>();
+            var currentUser = _userService.GetById(userId);
             return View(currentUser);
         }
 
