@@ -12,7 +12,7 @@ namespace SocialNetwork.Logic.Interfaces
         Message Update(int id, Message message);
         void Remove(int id);
         void SendMessage(Message message, int fromId, int toId);
-        int CountUnreadMessages(int id);
+        int CountUnreadedMessages(int id);
 
         void Dispose();
     }

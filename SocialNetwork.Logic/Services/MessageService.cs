@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using SocialNetwork.Logic.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,15 +52,26 @@ namespace SocialNetwork.Logic.Services
         {
             var messages = _unitOfWork.Messages.Query.Where(x => x.ApplicationUserId == id || x.Receiver.Id == id)
                 .OrderByDescending(m => m.Date).ToList();
-            messages.Select( m => { m.isReaded = true; return m; }).ToList();
-            _unitOfWork.Save();
+            markMessagesAsReaded(id);
 
             return messages;
         }
 
-        public int CountUnreadMessages(int id)
+        private void markMessagesAsReaded(int id)
+        {
+            var messages = _unitOfWork.Messages.Query.Where(x => x.Receiver.Id == id && x.isReaded == false).ToList();
+            foreach (var message in messages)
+            {
+                message.isReaded = true;
+                _unitOfWork.Messages.Update(message);
+            }
+            _unitOfWork.Save();
+        }
+
+        public int CountUnreadedMessages(int id)
         {
             var countMessages = _unitOfWork.Messages.Query.Where(x => x.Receiver.Id == id && x.isReaded == false).ToList().Count;
+            
             return countMessages;
         }
 
