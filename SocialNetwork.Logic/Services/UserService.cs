@@ -36,8 +36,7 @@ namespace SocialNetwork.Logic.Services
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                users = users.Where(x => x.Profile.FirstName.Contains(searchString) 
-                    || x.Profile.LastName.Contains(searchString)).ToList();
+                users = users.Where(x => x.Profile.FirstName.Contains(searchString)).ToList();
             }
 
             if (!String.IsNullOrEmpty(city))

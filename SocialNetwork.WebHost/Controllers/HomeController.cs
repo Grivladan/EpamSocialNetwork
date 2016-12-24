@@ -3,6 +3,7 @@ using PagedList;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.Logic.Interfaces;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -74,12 +75,16 @@ namespace SocialNetwork.WebHost.Controllers
             return View("GetAllUsers", model);
         }
 
-      /*  public ActionResult AutocompleteSearch(string term)
+        public ActionResult AutocompleteSearch(string term, string country, string city)
         {
-            var users = _userService.Search(term);
-
-            return Json(users, JsonRequestBehavior.AllowGet);
-        }*/
+            var users = _userService.Search(term, country, city);
+            var viewModel = users.Select( x => new {
+                user = x.Profile.FirstName,
+                country = x.Profile.Country,
+                city = x.Profile.City
+            });
+            return Json(viewModel, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
