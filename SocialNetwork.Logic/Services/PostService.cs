@@ -66,5 +66,14 @@ namespace SocialNetwork.Logic.Services
             var posts = _unitOfWork.Posts.Query.Where(x => x.ApplicationUserId == id).OrderByDescending(x => x.Date).ToList();
             return posts;
         }
+
+        public void LikePost(Like like)
+        {
+            like.Owner = _unitOfWork.UserManager.FindById(like.OwnerId);
+            like.Post = _unitOfWork.Posts.GetById(like.PostId);
+            like.Post.Likes.Add(like);
+            like.Owner.Likes.Add(like);
+            _unitOfWork.Save();
+        }
     }
 }

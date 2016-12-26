@@ -31,5 +31,17 @@ namespace SocialNetwork.WebHost.Controllers
             }
             return RedirectToAction("GetUserById", "Home");
         }
+
+        [HttpPost]
+        public ActionResult LikePost(int postId)
+        {
+            Like like = new Like()
+            {
+                OwnerId = User.Identity.GetUserId<int>(),
+                PostId = postId
+            };
+
+            return View();
+        }
     }
 }

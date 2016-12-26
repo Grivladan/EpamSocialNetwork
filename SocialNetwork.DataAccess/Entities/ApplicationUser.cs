@@ -17,6 +17,7 @@ namespace SocialNetwork.DataAccess.Entities
             Friends = new List<ApplicationUser>();
             Comments = new List<Comment>();
             Requests = new List<FriendRequest>();
+            Likes = new List<Like>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, int> manager)
@@ -33,6 +34,7 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual ICollection<ApplicationUser> Friends { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<FriendRequest> Requests { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
     }
 
     public class CustomUserRole : IdentityUserRole<int> { }

@@ -12,7 +12,10 @@
                 <span class="username">@post.ApplicationUser.Profile.FirstName</span><br />
             </p>
             <p> @post.Text </p>
-            <p class="no-pad-bottom date-posted">Posted @post.Date</p>
+            <div class="row">
+                <button class="btn btn-default" type="submit">Like</button>
+                <p class="no-pad-bottom date-posted">Posted @post.Date</p>
+            </div>
             <form class="add-comment" action=@Url.Action("Create", "Comment") method="post">
                 <div class="row">
                     <div class="col-md-9">
