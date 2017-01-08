@@ -47,3 +47,13 @@
     border: 0;
 }
 
+.date-posted{
+    float: right;
+    left: 25px;
+}
+
+.btn-like{
+    border : 0px solid transparent;
+    text-align : left;
+}
+

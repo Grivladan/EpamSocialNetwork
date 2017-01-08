@@ -18,12 +18,14 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual ICollection<Comment> Comments{ get; set;}
         public virtual ICollection<Like> Likes { get; set; }
+        public int LikeCount { get; set; }
 
         public Post()
         {
             Date = DateTime.Now;
             Comments = new List<Comment>();
             Likes = new List<Like>();
+            LikeCount = 0;
         }
     }
 }

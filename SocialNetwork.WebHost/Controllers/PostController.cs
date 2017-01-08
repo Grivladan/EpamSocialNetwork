@@ -35,13 +35,21 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult LikePost(int postId)
         {
+            var post = _postService.GetById(postId);
             Like like = new Like()
             {
                 OwnerId = User.Identity.GetUserId<int>(),
                 PostId = postId
             };
 
-            return View();
+            return PartialView("_LikeButton", post);
+        }
+
+        public JsonResult LikeCount(int postId)
+        {
+            var countLikes = _postService.LikeCount(postId);
+
+            return Json( new { countLikes}, JsonRequestBehavior.AllowGet);
         }
     }
 }

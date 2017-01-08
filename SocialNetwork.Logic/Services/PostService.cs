@@ -75,5 +75,11 @@ namespace SocialNetwork.Logic.Services
             like.Owner.Likes.Add(like);
             _unitOfWork.Save();
         }
+
+        public int LikeCount(int postId)
+        {
+            var post = _unitOfWork.Posts.GetById(postId);
+            return post.Likes.Count;
+        }
     }
 }

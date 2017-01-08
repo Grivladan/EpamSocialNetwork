@@ -19,14 +19,14 @@
             Friends
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
         </a>
-        <span id="requestCounter" hidden>1</span>
+        <span id="requestCounter" hidden>0</span>
     </div>
     <div class="row">
         <a href="@Url.Action("GetUserMessages", "Message", new { id = User.Identity.GetUserId<int>() })" class="btn btn-primary btn-large">
             Messages
             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
         </a>
-        <span id="messageCounter" hidden>1</span>
+        <span id="messageCounter" hidden>0</span>
     </div>
     <div class="row">
         <a href="@Url.Action("GetUserById", "Home") " class="btn btn-primary btn-large">
