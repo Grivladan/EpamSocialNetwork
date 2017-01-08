@@ -41,6 +41,7 @@ namespace SocialNetwork.WebHost.Controllers
                 OwnerId = User.Identity.GetUserId<int>(),
                 PostId = postId
             };
+            _postService.LikePost(like);
 
             return PartialView("_LikeButton", post);
         }

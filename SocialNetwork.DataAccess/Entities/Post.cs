@@ -18,7 +18,11 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual ICollection<Comment> Comments{ get; set;}
         public virtual ICollection<Like> Likes { get; set; }
-        public int LikeCount { get; set; }
+        public int LikeCount
+        {
+            get { return Likes.Count; }
+            private set { }
+        }
 
         public Post()
         {

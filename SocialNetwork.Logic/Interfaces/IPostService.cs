@@ -11,6 +11,7 @@ namespace SocialNetwork.Logic.Interfaces
         Post Update(int id, Post post);
         void Delete(int id);
         IEnumerable<Post> GetPostsByUser(int id);
+        void LikePost(Like like);
         int LikeCount(int postId);
         void Dispose();
     }

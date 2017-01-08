@@ -7,7 +7,7 @@
             <button type="submit" class="btn btn-default btn-xs btn-like">
                 <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                 Like
-                <span id="likeCounter" hidden> 0 </span>
+                @Html.DisplayTextFor(m => m.LikeCount)
             </button> 
             @Html.Hidden("postId", @Model.Id)
         </div>
