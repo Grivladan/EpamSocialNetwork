@@ -46,11 +46,5 @@ namespace SocialNetwork.WebHost.Controllers
             return PartialView("_LikeButton", post);
         }
 
-        public JsonResult LikeCount(int postId)
-        {
-            var countLikes = _postService.LikeCount(postId);
-
-            return Json( new { countLikes}, JsonRequestBehavior.AllowGet);
-        }
     }
 }

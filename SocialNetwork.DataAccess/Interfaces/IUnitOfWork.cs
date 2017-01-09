@@ -12,6 +12,7 @@ namespace SocialNetwork.DataAccess.Interfaces
         IRepository<Profile> Profiles { get;}
         IRepository<Comment> Comments { get; }
         IRepository<FriendRequest> Requests { get; }
+        IRepository<Like> Likes { get; }
         UserManager<ApplicationUser, int> UserManager { get; }
 
         void Save();

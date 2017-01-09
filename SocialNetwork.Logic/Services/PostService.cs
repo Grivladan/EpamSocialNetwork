@@ -69,17 +69,19 @@ namespace SocialNetwork.Logic.Services
 
         public void LikePost(Like like)
         {
-            like.Owner = _unitOfWork.UserManager.FindById(like.OwnerId);
-            like.Post = _unitOfWork.Posts.GetById(like.PostId);
-            like.Post.Likes.Add(like);
-            like.Owner.Likes.Add(like);
+            if (_unitOfWork.Likes.Query.Where(x => x.PostId == like.PostId && x.OwnerId == like.OwnerId) == null)
+            {
+                like.Owner = _unitOfWork.UserManager.FindById(like.OwnerId);
+                like.Post = _unitOfWork.Posts.GetById(like.PostId);
+                _unitOfWork.Likes.Create(like);
+            }
+            else
+            {
+
+                _unitOfWork.Likes.Delete(like.Id);
+            }
             _unitOfWork.Save();
         }
 
-        public int LikeCount(int postId)
-        {
-            var post = _unitOfWork.Posts.GetById(postId);
-            return post.Likes.Count;
-        }
     }
 }

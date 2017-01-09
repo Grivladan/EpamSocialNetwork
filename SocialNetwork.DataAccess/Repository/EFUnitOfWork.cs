@@ -24,6 +24,7 @@ namespace SocialNetwork.DataAccess.Repository
         private IRepository<Profile> _profilesRepository;
         private IRepository<Comment> _commentsRepository;
         private IRepository<FriendRequest> _requestsRepository;
+        private IRepository<Like> _likesRepository;
 
         public UserManager<ApplicationUser, int> UserManager
         {
@@ -74,6 +75,15 @@ namespace SocialNetwork.DataAccess.Repository
             {
                 return _requestsRepository ??
                        (_requestsRepository = _repositoryFactory.CreateRepository<FriendRequest>(_context));
+            }
+        }
+
+        public IRepository<Like> Likes
+        {
+            get
+            {
+                return _likesRepository ??
+                        (_likesRepository = _repositoryFactory.CreateRepository<Like>(_context));
             }
         }
 

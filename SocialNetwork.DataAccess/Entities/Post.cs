@@ -29,7 +29,6 @@ namespace SocialNetwork.DataAccess.Entities
             Date = DateTime.Now;
             Comments = new List<Comment>();
             Likes = new List<Like>();
-            LikeCount = 0;
         }
     }
 }
