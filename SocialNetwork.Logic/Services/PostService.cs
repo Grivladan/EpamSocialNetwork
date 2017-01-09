@@ -1,12 +1,9 @@
 ﻿using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using SocialNetwork.Logic.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.AspNet.Identity;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -69,7 +66,8 @@ namespace SocialNetwork.Logic.Services
 
         public void LikePost(Like like)
         {
-            if (_unitOfWork.Likes.Query.Where(x => x.PostId == like.PostId && x.OwnerId == like.OwnerId) == null)
+            var like1 = _unitOfWork.Likes.Query.Where(x => x.PostId == like.PostId && x.OwnerId == like.OwnerId).FirstOrDefault();
+            if (like1 == null)
             {
                 like.Owner = _unitOfWork.UserManager.FindById(like.OwnerId);
                 like.Post = _unitOfWork.Posts.GetById(like.PostId);
@@ -77,8 +75,7 @@ namespace SocialNetwork.Logic.Services
             }
             else
             {
-
-                _unitOfWork.Likes.Delete(like.Id);
+                _unitOfWork.Likes.Delete(like1.Id);
             }
             _unitOfWork.Save();
         }
