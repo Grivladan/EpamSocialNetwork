@@ -46,5 +46,11 @@ namespace SocialNetwork.WebHost.Controllers
             return PartialView("_LikeButton", post);
         }
 
+        public ActionResult GetFriendsPosts(int id)
+        {
+            var posts = _postService.GetFriendsPosts(id);
+            return View("GetPostsByUser", posts);
+        }
+
     }
 }

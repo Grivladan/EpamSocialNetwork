@@ -6,6 +6,7 @@ namespace SocialNetwork.Logic.Interfaces
     public interface IPostService
     {
         IEnumerable<Post> GetAll();
+        IEnumerable<Post> GetFriendsPosts(int id);
         Post GetById(int id);
         void Create(Post post);
         Post Update(int id, Post post);

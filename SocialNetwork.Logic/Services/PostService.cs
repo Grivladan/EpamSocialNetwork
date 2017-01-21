@@ -4,6 +4,7 @@ using SocialNetwork.Logic.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity;
+using System;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -64,6 +65,13 @@ namespace SocialNetwork.Logic.Services
             return posts;
         }
 
+        public IEnumerable<Post> GetFriendsPosts(int id)
+        {
+            var friendsId = _unitOfWork.UserManager.FindById(id).Friends.Select( p => p.Id);
+            var posts = _unitOfWork.Posts.Query.Where( x => friendsId.Contains((int)x.ApplicationUserId)).ToList();
+            return posts;
+        }
+
         public void LikePost(Like like)
         {
             var like1 = _unitOfWork.Likes.Query.Where(x => x.PostId == like.PostId && x.OwnerId == like.OwnerId).FirstOrDefault();
@@ -79,6 +87,5 @@ namespace SocialNetwork.Logic.Services
             }
             _unitOfWork.Save();
         }
-
     }
 }
