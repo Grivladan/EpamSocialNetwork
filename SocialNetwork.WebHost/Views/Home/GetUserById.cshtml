@@ -13,7 +13,8 @@
         </div>
 
         <div class="col-md-8">
-            @if(Model.Id == User.Identity.GetUserId<int>()){
+            @if (Model.Id == User.Identity.GetUserId<int>())
+            {
                 <div class="new-post pad-bottom">
                     @using (Html.BeginForm("Create", "Post"))
                     {
@@ -25,7 +26,15 @@
                     }
                 </div>
             }
-            @{Html.RenderAction("GetPostsByUser", "Post", new { id = Model.Id });}
+            <hr />
+            <div class="row" id="post-nav-bar">
+                @Ajax.ActionLink("My posts", "GetPostsByUser", "Post", new { id = User.Identity.GetUserId<int>() },  new AjaxOptions { UpdateTargetId = "postsList", InsertionMode = InsertionMode.Replace })
+                &nbsp; &nbsp;
+                @Ajax.ActionLink("My friends posts", "GetFriendsPosts", "Post", new { id = User.Identity.GetUserId<int>() }, new AjaxOptions { UpdateTargetId = "postsList", InsertionMode = InsertionMode.Replace })
+            </div>
+            <div id="postsList">
+               @{Html.RenderAction("GetPostsByUser", "Post", new { id = Model.Id });}
+            </div>
         </div>
     </div>
 </div>

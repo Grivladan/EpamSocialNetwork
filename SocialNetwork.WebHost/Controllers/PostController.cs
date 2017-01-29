@@ -17,7 +17,7 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult GetPostsByUser(int id)
         {
             var posts = _postService.GetPostsByUser(id);
-            return View(posts);
+            return PartialView(posts);
         }
 
         public ActionResult Create(FormCollection formCollection)
@@ -49,8 +49,7 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult GetFriendsPosts(int id)
         {
             var posts = _postService.GetFriendsPosts(id);
-            return View("GetPostsByUser", posts);
+            return PartialView("GetPostsByUser", posts);
         }
-
     }
 }
