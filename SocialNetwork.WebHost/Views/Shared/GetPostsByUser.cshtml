@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<link type="text/css" rel="stylesheet" href="~/Content/PostStyles.css" />
+<link type="text/css" rel="stylesheet" href="~/Content/PostStyles.css?" />
 
 <ul class="posts">
     @foreach (var post in Model)
@@ -16,9 +16,10 @@
             </div>
             <p> @post.Text </p>
             <div class="row">
-                   @Html.Partial("_LikeButton", post)   
+                   @Html.Partial("_LikeButton", post)  
+                   <button class="btn btn-default btn-xs commentToggleBtn" id="@post.Id">Write comment</button>
             </div>
-            <form class="add-comment" action=@Url.Action("Create", "Comment") method="post">
+            <form id="add-comment-@post.Id" action=@Url.Action("Create", "Comment") method="post">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -36,3 +37,11 @@
         </li>
     }
 </ul>
+
+<script>
+    $(document).ready(function () {
+        $(".commentToggleBtn").click(function () {
+            $("#add-comment-"+this.id).toggle();
+        });
+    });
+</script>

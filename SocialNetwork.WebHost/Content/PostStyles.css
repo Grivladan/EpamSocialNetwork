@@ -57,3 +57,14 @@
     text-align : left;
 }
 
+.commentToggleBtn{
+    position: relative;
+    bottom:25px; 
+    float:right;
+    border: 0;
+}
+
+.add-comment{
+    display: none;
+}
+
