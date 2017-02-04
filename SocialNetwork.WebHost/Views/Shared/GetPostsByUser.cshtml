@@ -19,7 +19,7 @@
                    @Html.Partial("_LikeButton", post)  
                    <button class="btn btn-default btn-xs commentToggleBtn" id="@post.Id">Write comment</button>
             </div>
-            <form id="add-comment-@post.Id" action=@Url.Action("Create", "Comment") method="post">
+            <form id="add-comment-@post.Id" class="add-comment" action=@Url.Action("Create", "Comment") method="post">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
