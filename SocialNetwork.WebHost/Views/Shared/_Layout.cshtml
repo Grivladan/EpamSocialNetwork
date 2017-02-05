@@ -6,7 +6,12 @@
     <title>@ViewBag.Title - SocNet</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
 
+    <link href='@Url.Content("~/Content/themes/base/all.css")' rel="stylesheet" type="text/css" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -31,7 +36,7 @@
                 {
                     @Html.ValidationSummary(true)
                     <div class="input-group">
-                        @Html.TextBox("searchString", null, new {@class ="form-control", id="searchString"})
+                        @Html.TextBox("searchString", null, new {@class ="form-control", id="searchStr"})
                         <div class="input-group-btn">
                             <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                         </div>
@@ -52,38 +57,33 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
 
-<script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
-
 <script type="text/javascript">
     jQuery.noConflict();
     jQuery(document).ready(function ($) {
-           $("#searchString").autocomplete({
-               source: function(request,response) {
-                   $.ajax({
-                       url: "/Home/AutocompleteSearch",
-                       type: "POST",
-                       dataType: "json",
-                       minLength: 1,
-                       data: { "term": request.term },
-                       success: function (data) {
-                           response($.map(data, function (item) {
-                               return { label: item.user, value: item.user };
-                           }))
-                       }
-                   })
-               },
-               messages: {
-                   noResults: "",
-                   results: function (resultsCount) { }
-               }
-           });
+        $("#searchStr").autocomplete({
+            source: function(request,response) {
+                $.ajax({
+                    url: "/Home/AutocompleteSearch",
+                    type: "POST",
+                    dataType: "json",
+                    minLength: 1,
+                    data: { "term": request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.user, value: item.user };
+                        }))
+                    }
+                })
+            },
+            messages: {
+                noResults: "",
+                results: function (resultsCount) { }
+            }
+        });
        })
 </script>
 
