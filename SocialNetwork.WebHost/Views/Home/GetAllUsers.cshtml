@@ -73,6 +73,27 @@
 <script type="text/javascript">
     jQuery.noConflict();
     jQuery(document).ready(function ($) {
+            $("#country").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/AutocompleteSearch",
+                        type: "POST",
+                        dataType: "json",
+                        minLength: 1,
+                        data: { "country": request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.country, value: item.country };
+                            }))
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "",
+                    results: function (resultsCount) { }
+                }
+            });
+
            $("#txtSearch").autocomplete({
                source: function(request,response) {
                    $.ajax({
@@ -84,6 +105,27 @@
                        success: function (data) {
                            response($.map(data, function (item) {
                                return { label: item.user, value: item.user };
+                           }))
+                       }
+                   })
+               },
+               messages: {
+                   noResults: "",
+                   results: function (resultsCount) { }
+               }
+           });
+
+           $("#city").autocomplete({
+               source: function (request, response) {
+                   $.ajax({
+                       url: "/Home/AutocompleteSearch",
+                       type: "POST",
+                       dataType: "json",
+                       minLength: 1,
+                       data: { "city": request.term },
+                       success: function (data) {
+                           response($.map(data, function (item) {
+                               return { label: item.city, value: item.city };
                            }))
                        }
                    })
