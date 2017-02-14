@@ -9,10 +9,13 @@
         @foreach (var comment in Model) { 
             <li>
                 <p>
+                    <span>
+                        <img src="@Url.Action("UserPhotos", "Profile", new { id = comment.ApplicationUserId})" height="35" width="35" id="navBarImg" />
+                    </span>
                     <span class="commentor">@comment.ApplicationUser.Profile.FirstName</span>
-                    <span>@comment.Text</span>
+                    <span class="no-pad-bottom date-posted">Posted @comment.CommentDate</span>
                 </p>
-                <p class="no-pad-bottom date-posted">Posted @comment.CommentDate</p>
+                <p>@comment.Text</p>
             </li>
         }
     </ul>

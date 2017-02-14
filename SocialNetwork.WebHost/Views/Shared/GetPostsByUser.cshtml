@@ -11,6 +11,9 @@
     { 
         <li>
             <div class="row">
+                <span>
+                    <img src="@Url.Action("UserPhotos", "Profile", new { id = post.ApplicationUserId})" height="35" width="35" id="navBarImg" />
+                </span>
                 <span class="username">@post.ApplicationUser.Profile.FirstName</span>
                 <span class="date-posted">Posted @post.Date</span>
             </div>
