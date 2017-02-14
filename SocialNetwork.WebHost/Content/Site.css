@@ -105,3 +105,19 @@ html .ui-autocomplete { width:1px; } /* without this, the menu expands to 100% i
     line-height:1.5;
     zoom:1;
 }
+
+#post-nav-bar{
+    position : relative;
+    right : -50px;
+}
+
+.userBtnGroup{
+    float : right;
+}
+
+footer {
+  height: 40px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
