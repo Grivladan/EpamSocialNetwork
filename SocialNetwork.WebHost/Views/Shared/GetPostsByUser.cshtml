@@ -19,29 +19,36 @@
                    @Html.Partial("_LikeButton", post)  
                    <button class="btn btn-default btn-xs commentToggleBtn" id="@post.Id">Write comment</button>
             </div>
-            <form id="add-comment-@post.Id" class="add-comment" action=@Url.Action("Create", "Comment") method="post">
+            @using (Ajax.BeginForm("Create", "Comment", null, new AjaxOptions { UpdateTargetId = "commentsTo-" + post.Id,
+                OnComplete = "OnComplete" }, new { id = "add-comment-" + post.Id, @class = "add-comment" }))
+            {
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
                             <input type="hidden" id="postId" name="PostId" value='@post.Id' />
                             <input type="hidden" id="ownerId" name="ownerId" value='@post.ApplicationUserId' />
-                            <input type="text" class="form-control" name="comment" placeholder="Add a comment"/>
+                            <input type="text" class="form-control" name="comment" id="comment-@post.Id" placeholder="Add a comment"/>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-default" type="submit">Add Comment</button>
                     </div>
                 </div>
-            </form>
-            @{Html.RenderAction("GetCommentsToPost", "Comment", new { id = post.Id});}
+            }
+            <div id="commentsTo-@post.Id">
+                @{Html.RenderAction("GetCommentsToPost", "Comment", new { id = post.Id});}
+            </div>
         </li>
     }
 </ul>
 
 <script>
+    var OnComplete = function () {
+        $("#comment-" + (this.id).substr(12)).val("");
+    }
     $(document).ready(function () {
         $(".commentToggleBtn").click(function () {
-            $("#add-comment-"+this.id).toggle();
+            $("#add-comment-" + this.id).toggle();
         });
     });
 </script>

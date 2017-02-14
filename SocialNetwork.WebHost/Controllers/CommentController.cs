@@ -26,7 +26,7 @@ namespace SocialNetwork.WebHost.Controllers
             comment.PostId = Convert.ToInt32(formCollection["PostId"]);
             comment.ApplicationUserId = User.Identity.GetUserId<int>();
             _commentService.Create(comment);
-            return RedirectToAction("GetUserById", "Home", new { id = Convert.ToInt32(formCollection["ownerId"])});
+            return RedirectToAction("GetCommentsToPost", new { id = comment.PostId});
         }
 
         public ActionResult GetCommentsToPost(int id)
