@@ -1,11 +1,8 @@
-﻿using SocialNetwork.DataAccess.Entities;
+﻿using AutoMapper;
+using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
+using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -18,18 +15,17 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Profile GetById(int id)
+        public ProfileDTO GetById(int id)
         {
-            var profile = _unitOfWork.Profiles.GetById(id);
-
-            return profile;
+            Mapper.Initialize(cfg => cfg.CreateMap<DataAccess.Entities.Profile, ProfileDTO>());
+            return Mapper.Map<DataAccess.Entities.Profile, ProfileDTO>(_unitOfWork.Profiles.GetById(id));
         }
 
-        public void Update(int id, Profile newProfile)
+        public void Update(int id, ProfileDTO newProfileDto)
         {
-            var profile = _unitOfWork.Profiles.GetById(id);
-
-            _unitOfWork.Profiles.Update(newProfile);
+            Mapper.Initialize(cfg => cfg.CreateMap<ProfileDTO, DataAccess.Entities.Profile>());
+            var newProfile = Mapper.Map<ProfileDTO, DataAccess.Entities.Profile>(newProfileDto);
+             _unitOfWork.Profiles.Update(newProfile);
         }
     }
 }

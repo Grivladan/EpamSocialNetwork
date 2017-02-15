@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity;
+using SocialNetwork.Logic.DTO;
+using AutoMapper;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -17,11 +19,11 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<FriendRequest> GetRequestsById(int id)
+        public IEnumerable<FriendRequestDTO> GetRequestsById(int id)
         {
             var requests = _unitOfWork.Requests.Query.Where(x => x.RequestedTo == id && x.IsAccepted == false).ToList();
-
-            return requests;
+            Mapper.Initialize(cfg => cfg.CreateMap<FriendRequest, FriendRequestDTO>());
+            return Mapper.Map<IEnumerable<FriendRequest>, List<FriendRequestDTO>>(requests);
         }
 
         public FriendRequest Create(int userId, int friendUserId)

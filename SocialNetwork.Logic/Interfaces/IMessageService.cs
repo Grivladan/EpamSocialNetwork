@@ -1,17 +1,17 @@
-﻿using SocialNetwork.DataAccess.Entities;
+﻿using SocialNetwork.Logic.DTO;
 using System.Collections.Generic;
 
 namespace SocialNetwork.Logic.Interfaces
 {
     public interface IMessageService
     {
-        IEnumerable<Message> GetAll();
-        IEnumerable<Message> GetUserMessages(int id);
-        Message GetById(int id);
-        Message Create(Message message);
-        Message Update(int id, Message message);
+        IEnumerable<MessageDTO> GetAll();
+        IEnumerable<MessageDTO> GetUserMessages(int id);
+        MessageDTO GetById(int id);
+        MessageDTO Create(MessageDTO message);
+        MessageDTO Update(int id, MessageDTO message);
         void Remove(int id);
-        void SendMessage(Message message, int fromId, int toId);
+        void SendMessage(MessageDTO message, int fromId, int toId);
         int CountUnreadedMessages(int id);
 
         void Dispose();

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
+using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,30 +18,33 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Message> GetAll()
+        public IEnumerable<MessageDTO> GetAll()
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<Message, MessageDTO>());
             var messages = _unitOfWork.Messages.GetAll().ToList();
-            return messages;
+            return Mapper.Map<List<Message>, List<MessageDTO>>(messages);
         }
 
-        public Message GetById(int id)
+        public MessageDTO GetById(int id)
         {
-            var message = _unitOfWork.Messages.GetById(id);
-            if(message == null)
-                return null;
-            return message;
+            Mapper.Initialize(cfg => cfg.CreateMap<Message, MessageDTO>());
+            return Mapper.Map<Message, MessageDTO>(_unitOfWork.Messages.GetById(id));
         }
 
-        public Message Create(Message message)
+        public MessageDTO Create(MessageDTO messageDto)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
+            var message = Mapper.Map<MessageDTO, Message>(messageDto);
             _unitOfWork.Messages.Create(message);
             _unitOfWork.Save();
 
             return null;
         }
 
-        public void SendMessage(Message message, int fromId, int toId)
+        public void SendMessage(MessageDTO messageDto, int fromId, int toId)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
+            var message = Mapper.Map<MessageDTO, Message>(messageDto);
             message.ApplicationUser = _unitOfWork.UserManager.FindById(fromId);
             var userTo = _unitOfWork.UserManager.FindById(toId);
             message.Receiver = userTo;
@@ -48,13 +53,14 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Save();
         }
 
-        public IEnumerable<Message> GetUserMessages(int id)
+        public IEnumerable<MessageDTO> GetUserMessages(int id)
         {
             var messages = _unitOfWork.Messages.Query.Where(x => x.ApplicationUserId == id || x.Receiver.Id == id)
                 .OrderByDescending(m => m.Date).ToList();
             markMessagesAsReaded(id);
 
-            return messages;
+            Mapper.Initialize(cfg => cfg.CreateMap<Message, MessageDTO>());
+            return Mapper.Map<List<Message>, List<MessageDTO>>(messages);
         }
 
         private void markMessagesAsReaded(int id)
@@ -80,7 +86,7 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Dispose();
         }
 
-        public Message Update(int id, Message newMessage)
+        public MessageDTO Update(int id, MessageDTO newMessage)
         {
             var message = _unitOfWork.Messages.GetById(id);
             if (message == null)
@@ -88,7 +94,8 @@ namespace SocialNetwork.Logic.Services
 
             message.Text = newMessage.Text;
             _unitOfWork.Save();
-            return message;
+            Mapper.Initialize(cfg => cfg.CreateMap<Message, MessageDTO>());
+            return Mapper.Map<Message, MessageDTO>(message);
         }
 
         public void Remove(int id)

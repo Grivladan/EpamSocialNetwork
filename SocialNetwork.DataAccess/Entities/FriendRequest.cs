@@ -1,6 +1,5 @@
 ﻿using SocialNetwork.DataAccess.Interfaces;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.DataAccess.Entities
 {

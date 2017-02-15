@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using System;
+using SocialNetwork.Logic.DTO;
+using AutoMapper;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -17,35 +19,39 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Post> GetAll()
+        public IEnumerable<PostDTO> GetAll()
         {
-            var posts = _unitOfWork.Posts.GetAll();
-            return posts;
+            Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());
+            return Mapper.Map<IEnumerable<Post>, List<PostDTO>>(_unitOfWork.Posts.GetAll());
         }
 
-        public Post GetById(int id)
+        public PostDTO GetById(int id)
         {
-            var post = _unitOfWork.Posts.GetById(id);
-            return post;           
+            Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());
+            return Mapper.Map<Post, PostDTO>(_unitOfWork.Posts.GetById(id));     
         }
 
 
-        public void Create(Post post)
+        public void Create(PostDTO postDto)
         {
-             post.ApplicationUser = _unitOfWork.UserManager.FindById(post.ApplicationUserId??0);
+            Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, Post>());
+            var post = Mapper.Map<PostDTO, Post>(postDto);
+            post.ApplicationUser = _unitOfWork.UserManager.FindById(post.ApplicationUserId??0);
             _unitOfWork.Posts.Create(post);
             _unitOfWork.Save();
         }
 
-        public Post Update(int id, Post newPost)
+        public PostDTO Update(int id, PostDTO newPostDto)
         {
             var post = _unitOfWork.Posts.GetById(id);
             if (post == null)
                 return null;
 
+            Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, Post>());
+            var newPost = Mapper.Map<PostDTO, Post>(newPostDto);
             post.Text = newPost.Text;
             _unitOfWork.Save();
-            return post;
+            return null;
         }
 
         public void Delete(int id)
@@ -59,31 +65,33 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Dispose();
         }
 
-        public IEnumerable<Post> GetPostsByUser(int id)
+        public IEnumerable<PostDTO> GetPostsByUser(int id)
         {
             var posts = _unitOfWork.Posts.Query.Where(x => x.ApplicationUserId == id).OrderByDescending(x => x.Date).ToList();
-            return posts;
+            Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());
+            return Mapper.Map<IEnumerable<Post>, List<PostDTO>>(posts);
         }
 
-        public IEnumerable<Post> GetFriendsPosts(int id)
+        public IEnumerable<PostDTO> GetFriendsPosts(int id)
         {
             var friendsId = _unitOfWork.UserManager.FindById(id).Friends.Select( p => p.Id);
             var posts = _unitOfWork.Posts.Query.Where( x => friendsId.Contains((int)x.ApplicationUserId)).ToList();
-            return posts;
+            Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());
+            return Mapper.Map<IEnumerable<Post>, List<PostDTO>>(posts);
         }
 
-        public void LikePost(Like like)
+        public void LikePost(LikeDTO likeDto)
         {
-            var like1 = _unitOfWork.Likes.Query.Where(x => x.PostId == like.PostId && x.OwnerId == like.OwnerId).FirstOrDefault();
-            if (like1 == null)
+            var like = _unitOfWork.Likes.Query.Where(x => x.PostId == likeDto.PostId && x.OwnerId == likeDto.OwnerId).FirstOrDefault();
+            if (like == null)
             {
-                like.Owner = _unitOfWork.UserManager.FindById(like.OwnerId);
-                like.Post = _unitOfWork.Posts.GetById(like.PostId);
+                like.Owner = _unitOfWork.UserManager.FindById(likeDto.OwnerId);
+                like.Post = _unitOfWork.Posts.GetById(likeDto.PostId);
                 _unitOfWork.Likes.Create(like);
             }
             else
             {
-                _unitOfWork.Likes.Delete(like1.Id);
+                _unitOfWork.Likes.Delete(like.Id);
             }
             _unitOfWork.Save();
         }

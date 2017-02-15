@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
+using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +18,16 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Comment> GetAll()
+        public IEnumerable<CommentDTO> GetAll()
         {
-            var comments = _unitOfWork.Comments.Query;
-            return comments;
+            Mapper.Initialize(cfg => cfg.CreateMap<Comment, CommentDTO>());
+            return Mapper.Map<List<Comment>, List<CommentDTO>>(_unitOfWork.Comments.GetAll().ToList());
         }
 
-        public Comment Create(Comment comment)
+        public CommentDTO Create(CommentDTO commentDto)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, Comment>());
+            var comment = Mapper.Map<CommentDTO, Comment>(commentDto);
             comment.ApplicationUser = _unitOfWork.UserManager.FindById(comment.ApplicationUserId);
             _unitOfWork.Comments.Create(comment);
             _unitOfWork.Save();
@@ -31,10 +35,11 @@ namespace SocialNetwork.Logic.Services
             return null;
         }
 
-        public IEnumerable<Comment> GetCommentsToPost(int id)
+        public IEnumerable<CommentDTO> GetCommentsToPost(int id)
         {
             var comments = _unitOfWork.Comments.Query.Where( x => x.PostId == id).OrderByDescending(x => x.CommentDate).ToList();
-            return comments;
+            Mapper.Initialize(cfg => cfg.CreateMap<Comment, CommentDTO>());
+            return Mapper.Map<List<Comment>, List<CommentDTO>>(comments);
         }
 
         public void Dispose()
