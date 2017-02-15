@@ -102,6 +102,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\CommentDTO.cs" />
+    <Compile Include="DTO\LikeDTO.cs" />
+    <Compile Include="DTO\MessageDTO.cs" />
+    <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="Infrastructure\DependencyResolver.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IFriendRequestService.cs" />
