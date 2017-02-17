@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
 using SocialNetwork.DataAccess.Entities;
+using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
+using SocialNetwork.WebHost.ViewModel;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace SocialNetwork.WebHost.Controllers
@@ -16,18 +20,22 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetPostsByUser(int id)
         {
-            var posts = _postService.GetPostsByUser(id);
-            return PartialView(posts);
+            var postsDto = _postService.GetPostsByUser(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, PostViewModel>());
+            var postsViewModel = Mapper.Map<IEnumerable<PostDTO>, IEnumerable<PostViewModel>>(postsDto);
+            return PartialView(postsViewModel);
         }
 
         public ActionResult Create(FormCollection formCollection)
         {
             if (ModelState.IsValid)
             {
-                Post post = new Post();
-                post.Text = formCollection["Post"];
-                post.ApplicationUserId = User.Identity.GetUserId<int>();
-                _postService.Create(post);
+                PostDTO postDto = new PostDTO()
+                {
+                    Text = formCollection["Post"],
+                    ApplicationUserId = User.Identity.GetUserId<int>()
+                };
+                _postService.Create(postDto);
             }
             return RedirectToAction("GetUserById", "Home");
         }
@@ -36,20 +44,22 @@ namespace SocialNetwork.WebHost.Controllers
         public ActionResult LikePost(int postId)
         {
             var post = _postService.GetById(postId);
-            Like like = new Like()
+            LikeDTO likeDto = new LikeDTO
             {
                 OwnerId = User.Identity.GetUserId<int>(),
                 PostId = postId
             };
-            _postService.LikePost(like);
+            _postService.LikePost(likeDto);
 
             return PartialView("_LikeButton", post);
         }
 
         public ActionResult GetFriendsPosts(int id)
         {
-            var posts = _postService.GetFriendsPosts(id);
-            return PartialView("GetPostsByUser", posts);
+            var postsDto = _postService.GetFriendsPosts(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, PostViewModel>());
+            var postsViewModel = Mapper.Map<IEnumerable<PostDTO>, IEnumerable<PostViewModel>>(postsDto);
+            return PartialView("GetPostsByUser", postsViewModel);
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿using SocialNetwork.DataAccess.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.Logic.Interfaces;
+using AutoMapper;
+using SocialNetwork.WebHost.ViewModel;
+using SocialNetwork.Logic.DTO;
+using System.Collections.Generic;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -21,9 +19,10 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetRequestsById(int id)
         {
-            var requests = _friendRequestService.GetRequestsById(id);
-
-            return View(requests);
+            var requestsDto = _friendRequestService.GetRequestsById(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<FriendRequestDTO, FriendRequestViewModel>());
+            var requestsViewModel = Mapper.Map<IEnumerable<FriendRequestDTO>, IEnumerable<FriendRequestViewModel>>(requestsDto);
+            return View(requestsViewModel);
         }
 
         public ActionResult Create(int friendUserId)

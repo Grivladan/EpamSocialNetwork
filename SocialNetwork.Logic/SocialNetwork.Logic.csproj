@@ -103,7 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\CommentDTO.cs" />
-    <Compile Include="DTO\FriendsRequestDTO.cs" />
+    <Compile Include="DTO\FriendRequestDTO.cs" />
     <Compile Include="DTO\LikeDTO.cs" />
     <Compile Include="DTO\MessageDTO.cs" />
     <Compile Include="DTO\PostDTO.cs" />

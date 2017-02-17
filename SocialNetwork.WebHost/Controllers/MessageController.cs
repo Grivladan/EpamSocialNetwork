@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
-using SocialNetwork.DataAccess.Entities;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity;
+using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
+using SocialNetwork.WebHost.ViewModel;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace SocialNetwork.WebHost.Controllers
@@ -16,8 +19,9 @@ namespace SocialNetwork.WebHost.Controllers
         
         public ActionResult Index()
         {
-            var messages = _messageService.GetAll();
-            return View(messages);
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, MessageViewModel>());
+            var messageDtos = Mapper.Map<IEnumerable<MessageDTO>, List<MessageViewModel>>(_messageService.GetAll());
+            return View(messageDtos);
         }
 
         public ActionResult Create(int id)
@@ -26,10 +30,12 @@ namespace SocialNetwork.WebHost.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Message message, int id)
+        public ActionResult Create(MessageViewModel messageViewModel, int id)
         {
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageViewModel, MessageDTO>());
+            var messageDto = Mapper.Map<MessageViewModel, MessageDTO>(messageViewModel);
             var ownerId = User.Identity.GetUserId<int>();
-            _messageService.SendMessage(message, ownerId, id);
+            _messageService.SendMessage(messageDto, ownerId, id);
             return RedirectToAction("GetUserMessages", new { id = ownerId});
         }
 
@@ -39,9 +45,11 @@ namespace SocialNetwork.WebHost.Controllers
             return RedirectToAction("Index", "Message");
         }
 
-        public ActionResult Edit(Message message)
+        public ActionResult Edit(MessageViewModel messageViewModel)
         {
-            _messageService.Update(message.Id, message);
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageViewModel, MessageDTO>());
+            var messageDto = Mapper.Map<MessageViewModel, MessageDTO>(messageViewModel);
+            _messageService.Update(messageDto.Id, messageDto);
             return RedirectToAction("Index", "Message");
         }
 
@@ -55,8 +63,10 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult GetUserMessages(int id)
         {
-            var messages = _messageService.GetUserMessages(id);
-            return View(messages);
+            var messagesDto = _messageService.GetUserMessages(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, MessageViewModel>());
+            var messagesViewModel = Mapper.Map<IEnumerable<MessageDTO>, IEnumerable<MessageViewModel>>(messagesDto);
+            return View(messagesViewModel);
         }
 
     }

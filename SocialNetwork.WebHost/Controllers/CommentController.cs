@@ -2,10 +2,11 @@
 using SocialNetwork.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using SocialNetwork.Logic.DTO;
+using AutoMapper;
+using SocialNetwork.WebHost.ViewModel;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -21,18 +22,21 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection formCollection)
         {
-            Comment comment = new Comment();
-            comment.Text = formCollection["comment"];
-            comment.PostId = Convert.ToInt32(formCollection["PostId"]);
-            comment.ApplicationUserId = User.Identity.GetUserId<int>();
-            _commentService.Create(comment);
-            return RedirectToAction("GetCommentsToPost", new { id = comment.PostId});
+            CommentDTO commentDto = new CommentDTO()
+            {
+                Text = formCollection["comment"],
+                PostId = Convert.ToInt32(formCollection["PostId"]),
+                ApplicationUserId = User.Identity.GetUserId<int>()
+            };
+            _commentService.Create(commentDto);
+            return RedirectToAction("GetCommentsToPost", new { id = commentDto.PostId});
         }
 
         public ActionResult GetCommentsToPost(int id)
         {
             var comments = _commentService.GetCommentsToPost(id);
-            return View(comments);
+            Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, CommentViewModel>());
+            return View(Mapper.Map<IEnumerable<CommentDTO>, List<CommentViewModel>>(comments));
         }
     }
 }
