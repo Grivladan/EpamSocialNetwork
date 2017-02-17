@@ -1,4 +1,4 @@
-﻿@model SocialNetwork.DataAccess.Entities.Post
+﻿@model SocialNetwork.WebHost.ViewModel.PostViewModel
 
 <div id="likeBtn-@Model.Id">
     @using (Ajax.BeginForm("LikePost", "Post", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "likeBtn-" + @Model.Id, InsertionMode = InsertionMode.Replace }))

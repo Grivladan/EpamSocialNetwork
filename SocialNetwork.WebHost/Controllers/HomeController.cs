@@ -4,6 +4,7 @@ using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.Logic.Interfaces;
 using System.Web.Mvc;
 using System.Linq;
+using SocialNetwork.Logic.DTO;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -39,10 +40,12 @@ namespace SocialNetwork.WebHost.Controllers
             var currentUser = _userService.GetById(User.Identity.GetUserId<int>());
             if (ModelState.IsValid)
             {
-                Post post = new Post();
-                post.Text = formCollection["Post"];
-                post.ApplicationUser = currentUser;
-                _postService.Create(post);
+                PostDTO postDto = new PostDTO
+                {
+                    Text = formCollection["Post"],
+                    ApplicationUser = currentUser
+                };
+                _postService.Create(postDto);
             }
             return View("GetUserById", currentUser);
         }

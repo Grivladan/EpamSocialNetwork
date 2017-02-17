@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialNetwork.DataAccess.Entities;
+using System;
 
 namespace SocialNetwork.WebHost.ViewModel
 {
@@ -10,5 +11,6 @@ namespace SocialNetwork.WebHost.ViewModel
         public DateTime Date { get; set; }
 
         public int? ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

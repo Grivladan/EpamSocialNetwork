@@ -16,7 +16,7 @@ namespace SocialNetwork.DataAccess.Entities
             Messages = new List<Message>();
             Friends = new List<ApplicationUser>();
             Comments = new List<Comment>();
-            Requests = new List<FriendRequestDTO>();
+            Requests = new List<FriendRequest>();
             Likes = new List<Like>();
         }
 
@@ -33,7 +33,7 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<ApplicationUser> Friends { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<FriendRequestDTO> Requests { get; set; }
+        public virtual ICollection<FriendRequest> Requests { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
     }
 
