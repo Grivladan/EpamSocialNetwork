@@ -43,7 +43,7 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult LikePost(int postId)
         {
-            var post = _postService.GetById(postId);
+            var postDto = _postService.GetById(postId);
             LikeDTO likeDto = new LikeDTO
             {
                 OwnerId = User.Identity.GetUserId<int>(),
@@ -51,7 +51,10 @@ namespace SocialNetwork.WebHost.Controllers
             };
             _postService.LikePost(likeDto);
 
-            return PartialView("_LikeButton", post);
+            var postDtoUpdate = _postService.GetById(postId);
+            Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, PostViewModel>());
+            var postViewModel = Mapper.Map<PostDTO, PostViewModel>(postDtoUpdate);
+            return PartialView("_LikeButton", postViewModel);
         }
 
         public ActionResult GetFriendsPosts(int id)

@@ -10,11 +10,6 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual ApplicationUser Owner { get; set; }
         public int PostId { get; set; }
         public virtual Post Post { get; set; }
-        public DateTime Date { get; set; }
-
-        public Like()
-        {
-            Date = DateTime.Now;
-        }
+        public DateTime? Date { get; set; }
     }
 }

@@ -3,6 +3,8 @@ using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
 
 namespace SocialNetwork.DataAccess.Repository
 {
@@ -109,7 +111,15 @@ namespace SocialNetwork.DataAccess.Repository
 
         public void Save()
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch(DbUpdateException ex)
+            {
+                Debug.WriteLine(ex.Data);
+                Debug.WriteLine(ex.Entries);
+            }
         }
 
     }

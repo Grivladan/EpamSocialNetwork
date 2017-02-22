@@ -26,7 +26,6 @@ namespace SocialNetwork.DataAccess.Entities
 
         public Post()
         {
-            Date = DateTime.Now;
             Comments = new List<Comment>();
             Likes = new List<Like>();
         }

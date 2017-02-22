@@ -84,6 +84,8 @@ namespace SocialNetwork.Logic.Services
             var like = _unitOfWork.Likes.Query.Where(x => x.PostId == likeDto.PostId && x.OwnerId == likeDto.OwnerId).FirstOrDefault();
             if (like == null)
             {
+                Mapper.Initialize(cfg => cfg.CreateMap<LikeDTO, Like>());
+                like = Mapper.Map<LikeDTO, Like>(likeDto);
                 like.Owner = _unitOfWork.UserManager.FindById(likeDto.OwnerId);
                 like.Post = _unitOfWork.Posts.GetById(likeDto.PostId);
                 _unitOfWork.Likes.Create(like);

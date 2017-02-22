@@ -16,12 +16,6 @@ namespace SocialNetwork.DataAccess.Entities
         public virtual Post Post { get; set; }
 
         public int ApplicationUserId { get; set; }
-        public virtual ApplicationUser ApplicationUser { get; set; }
-
-        public Comment()
-        {
-            CommentDate = DateTime.Now;
-        }
-        
+        public virtual ApplicationUser ApplicationUser { get; set; }        
     }
 }

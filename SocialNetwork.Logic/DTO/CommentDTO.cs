@@ -11,5 +11,10 @@ namespace SocialNetwork.Logic.DTO
         public int PostId { get; set; }
         public int ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public CommentDTO()
+        {
+            CommentDate = DateTime.Now;
+        }
     }
 }

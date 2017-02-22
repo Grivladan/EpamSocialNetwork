@@ -29,6 +29,7 @@ namespace SocialNetwork.Logic.Services
             Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, Comment>());
             var comment = Mapper.Map<CommentDTO, Comment>(commentDto);
             comment.ApplicationUser = _unitOfWork.UserManager.FindById(comment.ApplicationUserId);
+            comment.Post = _unitOfWork.Posts.GetById(comment.PostId);
             _unitOfWork.Comments.Create(comment);
             _unitOfWork.Save();
 
