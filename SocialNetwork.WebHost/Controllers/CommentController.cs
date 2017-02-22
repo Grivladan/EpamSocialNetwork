@@ -1,5 +1,4 @@
-﻿using SocialNetwork.DataAccess.Entities;
-using SocialNetwork.Logic.Interfaces;
+﻿using SocialNetwork.Logic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -36,7 +35,7 @@ namespace SocialNetwork.WebHost.Controllers
         {
             var comments = _commentService.GetCommentsToPost(id);
             Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, CommentViewModel>());
-            return View(Mapper.Map<IEnumerable<CommentDTO>, List<CommentViewModel>>(comments));
+            return View(Mapper.Map<IEnumerable<CommentDTO>, IEnumerable<CommentViewModel>>(comments));
         }
     }
 }

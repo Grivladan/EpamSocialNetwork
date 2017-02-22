@@ -8,7 +8,8 @@ namespace SocialNetwork.Logic.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
+        public int LikeCount { get; set; }
 
         public int? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

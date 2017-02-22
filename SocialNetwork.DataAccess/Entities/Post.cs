@@ -12,7 +12,7 @@ namespace SocialNetwork.DataAccess.Entities
 
         [Required(ErrorMessage = "You can't write empty post")]
         public string Text { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public int? ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocialNetwork.DataAccess.Entities;
+using System;
 
 namespace SocialNetwork.Logic.DTO
 {
@@ -9,5 +10,6 @@ namespace SocialNetwork.Logic.DTO
         public DateTime CommentDate { get; set; }
         public int PostId { get; set; }
         public int ApplicationUserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
