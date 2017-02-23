@@ -9,7 +9,7 @@ namespace SocialNetwork.WebHost.ViewModel
         public int ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public int RequestedTo { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
         public bool IsAccepted { get; set; }
     }
 }
