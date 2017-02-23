@@ -1,6 +1,4 @@
 ﻿using SocialNetwork.DataAccess.EF;
-using SocialNetwork.DataAccess.Entities;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;

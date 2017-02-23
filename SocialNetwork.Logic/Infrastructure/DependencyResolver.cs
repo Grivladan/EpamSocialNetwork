@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Ninject.Modules;
-using SocialNetwork.DataAccess.Entities;
+﻿using Ninject.Modules;
 
 namespace SocialNetwork.Logic.Infrastructure
 {

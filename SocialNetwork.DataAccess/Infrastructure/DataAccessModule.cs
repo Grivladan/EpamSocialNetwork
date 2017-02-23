@@ -3,10 +3,6 @@ using Ninject.Extensions.Factory;
 using Ninject.Modules;
 using SocialNetwork.DataAccess.EF;
 using SocialNetwork.DataAccess.Repository;
-using SocialNetwork.DataAccess.Entities;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Ninject.Parameters;
 
 namespace SocialNetwork.DataAccess.Infrastructure
 {

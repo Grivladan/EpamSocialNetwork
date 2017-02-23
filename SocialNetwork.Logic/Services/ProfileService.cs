@@ -24,7 +24,8 @@ namespace SocialNetwork.Logic.Services
         {
             Mapper.Initialize(cfg => cfg.CreateMap<ProfileDTO, DataAccess.Entities.Profile>());
             var newProfile = Mapper.Map<ProfileDTO, DataAccess.Entities.Profile>(newProfileDto);
-             _unitOfWork.Profiles.Update(newProfile);
+            _unitOfWork.Profiles.Update(newProfile);
+            _unitOfWork.Save();
         }
     }
 }
