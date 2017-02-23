@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
@@ -21,7 +20,7 @@ namespace SocialNetwork.Logic.Services
             return Mapper.Map<DataAccess.Entities.Profile, ProfileDTO>(_unitOfWork.Profiles.GetById(id));
         }
 
-        public void Update(int id, ProfileDTO newProfileDto)
+        public void Update(ProfileDTO newProfileDto)
         {
             Mapper.Initialize(cfg => cfg.CreateMap<ProfileDTO, DataAccess.Entities.Profile>());
             var newProfile = Mapper.Map<ProfileDTO, DataAccess.Entities.Profile>(newProfileDto);

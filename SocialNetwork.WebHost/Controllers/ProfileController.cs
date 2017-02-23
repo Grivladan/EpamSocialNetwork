@@ -7,28 +7,42 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using SocialNetwork.Logic.Interfaces;
+using SocialNetwork.Logic.DTO;
+using AutoMapper;
+using SocialNetwork.WebHost.ViewModel;
 
 namespace SocialNetwork.WebHost.Controllers
 {
     public class ProfileController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
+        private readonly IProfileService _profileService;
+
+        public ProfileController(IProfileService profileService)
+        {
+            _profileService = profileService;
+        }
         // GET: Profile
         public ActionResult Edit(int id = 0)
         {
-            Profile profile = context.Profiles.Find(id);
-            if (profile == null)
+            ProfileDTO profileDto = _profileService.GetById(id);
+            if (profileDto == null)
             {
                 return HttpNotFound();
             }
-            return View(profile);
+            Mapper.Initialize(cfg => cfg.CreateMap<ProfileDTO, ProfileViewModel>());
+            var profileViewModel = Mapper.Map<ProfileDTO, ProfileViewModel>(profileDto);
+            return View(profileViewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit([Bind(Exclude = "UserPhoto")]Profile profile)
+        public ActionResult Edit([Bind(Exclude = "UserPhoto")]ProfileViewModel profileViewModel)
         {
             if (ModelState.IsValid)
             {
+                Mapper.Initialize(cfg => cfg.CreateMap<ProfileViewModel, ProfileDTO>());
+                var profileDto = Mapper.Map<ProfileViewModel, ProfileDTO>(profileViewModel);
+
                 byte[] imageData = null;
 
                 if (Request.Files.Count > 0)
@@ -45,21 +59,20 @@ namespace SocialNetwork.WebHost.Controllers
 
                 if (imageData != null)
                 {
-                    profile.UserPhoto = imageData;
+                    profileDto.UserPhoto = imageData;
                 }
                 else
                 {
                     int userId = User.Identity.GetUserId<int>();
                     var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
                     var userProfile = bdUsers.Users.Where(x => x.Id == userId).FirstOrDefault().Profile;
-                    profile.UserPhoto = userProfile.UserPhoto;
+                    profileDto.UserPhoto = userProfile.UserPhoto;
                 }
 
-                context.Entry(profile).State = EntityState.Modified;
-                context.SaveChanges();
+                _profileService.Update(profileDto);
                 return RedirectToAction("GetUserById", "Home");
             }
-            return View(profile);
+            return View(profileViewModel);
         }
 
         public FileContentResult UserPhotos(int? id)
@@ -85,7 +98,6 @@ namespace SocialNetwork.WebHost.Controllers
                 BinaryReader br = new BinaryReader(fs);
                 imageData = br.ReadBytes((int)imageFileLength);
                 return File(imageData, "image/png");
-
             }
         }
     }
