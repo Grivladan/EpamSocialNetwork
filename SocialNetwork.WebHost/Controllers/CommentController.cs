@@ -21,14 +21,25 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection formCollection)
         {
-            CommentDTO commentDto = new CommentDTO()
+            try
             {
-                Text = formCollection["comment"],
-                PostId = Convert.ToInt32(formCollection["PostId"]),
-                ApplicationUserId = User.Identity.GetUserId<int>()
-            };
-            _commentService.Create(commentDto);
-            return RedirectToAction("GetCommentsToPost", new { id = commentDto.PostId});
+                CommentDTO commentDto = new CommentDTO()
+                {
+                    Text = formCollection["comment"],
+                    PostId = Convert.ToInt32(formCollection["PostId"]),
+                    ApplicationUserId = User.Identity.GetUserId<int>()
+                };
+                if (string.IsNullOrEmpty(commentDto.Text))
+                {
+                    ModelState.AddModelError("Text", "Comment text can't be empty");
+                }
+                _commentService.Create(commentDto);
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("Text", "Can't create comment");
+            }
+            return RedirectToAction("GetCommentsToPost", new { id = Convert.ToInt32(formCollection["PostId"])});
         }
 
         public ActionResult GetCommentsToPost(int id)

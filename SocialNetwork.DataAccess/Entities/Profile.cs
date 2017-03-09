@@ -14,7 +14,7 @@ namespace SocialNetwork.DataAccess.Entities
         [Required(ErrorMessage="First name required")]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage="Last name required")]
+        [Required(ErrorMessage = "First name required")]
         public string LastName { get; set; } 
 
         [DataType(DataType.Date)]

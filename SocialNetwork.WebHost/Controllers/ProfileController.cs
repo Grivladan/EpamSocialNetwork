@@ -70,6 +70,12 @@ namespace SocialNetwork.WebHost.Controllers
                 _profileService.Update(profileDto);
                 return RedirectToAction("GetUserById", "Home");
             }
+            else
+            {
+                var errors = ModelState.Select(x => x.Value.Errors)
+                           .Where(y => y.Count > 0)
+                           .ToList();
+            }
             return View(profileViewModel);
         }
 
