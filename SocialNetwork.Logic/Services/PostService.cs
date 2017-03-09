@@ -6,6 +6,8 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using SocialNetwork.Logic.DTO;
 using AutoMapper;
+using SocialNetwork.Logic.Infrastructure;
+using System;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -26,31 +28,40 @@ namespace SocialNetwork.Logic.Services
 
         public PostDTO GetById(int id)
         {
+            var post = _unitOfWork.Posts.GetById(id);
+            if (post == null)
+                throw new ValidationException("Post doesn't exist", "");
             Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());
-            return Mapper.Map<Post, PostDTO>(_unitOfWork.Posts.GetById(id));     
+            return Mapper.Map<Post, PostDTO>(post);     
         }
 
 
         public void Create(PostDTO postDto)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, Post>());
-            var post = Mapper.Map<PostDTO, Post>(postDto);
-            post.ApplicationUser = _unitOfWork.UserManager.FindById(post.ApplicationUserId??0);
-            _unitOfWork.Posts.Create(post);
-            _unitOfWork.Save();
+            try
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, Post>());
+                var post = Mapper.Map<PostDTO, Post>(postDto);
+                post.ApplicationUser = _unitOfWork.UserManager.FindById(post.ApplicationUserId ?? 0);
+                _unitOfWork.Posts.Create(post);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        public PostDTO Update(int id, PostDTO newPostDto)
+        public void Update(int id, PostDTO newPostDto)
         {
             var post = _unitOfWork.Posts.GetById(id);
             if (post == null)
-                return null;
+                throw new ValidationException("Post doesn't exist", "");
 
             Mapper.Initialize(cfg => cfg.CreateMap<PostDTO, Post>());
             var newPost = Mapper.Map<PostDTO, Post>(newPostDto);
-            post.Text = newPost.Text;
+            _unitOfWork.Posts.Update(newPost);
             _unitOfWork.Save();
-            return null;
         }
 
         public void Delete(int id)
@@ -73,8 +84,11 @@ namespace SocialNetwork.Logic.Services
 
         public IEnumerable<PostDTO> GetFriendsPosts(int id)
         {
-            var friendsId = _unitOfWork.UserManager.FindById(id).Friends.Select( p => p.Id);
-            var posts = _unitOfWork.Posts.Query.Where( x => friendsId.Contains((int)x.ApplicationUserId)).ToList();
+            var user = _unitOfWork.UserManager.FindById(id);
+            if (user == null)
+                throw new ValidationException("User with id " + "doesn't exist", "");
+            var friendIds = user.Friends.Select( p => p.Id);
+            var posts = _unitOfWork.Posts.Query.Where( x => friendIds.Contains((int)x.ApplicationUserId)).ToList();
             Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());
             return Mapper.Map<IEnumerable<Post>, List<PostDTO>>(posts);
         }

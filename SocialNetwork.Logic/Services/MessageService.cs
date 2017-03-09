@@ -3,7 +3,9 @@ using Microsoft.AspNet.Identity;
 using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using SocialNetwork.Logic.DTO;
+using SocialNetwork.Logic.Infrastructure;
 using SocialNetwork.Logic.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,31 +28,46 @@ namespace SocialNetwork.Logic.Services
         }
 
         public MessageDTO GetById(int id)
-        {
+        { 
+            var message = _unitOfWork.Messages.GetById(id);
+            if (message == null)
+                throw new ValidationException("Message doesn't exist", "");
             Mapper.Initialize(cfg => cfg.CreateMap<Message, MessageDTO>());
-            return Mapper.Map<Message, MessageDTO>(_unitOfWork.Messages.GetById(id));
+            return Mapper.Map<Message, MessageDTO>(message);
         }
 
         public MessageDTO Create(MessageDTO messageDto)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
-            var message = Mapper.Map<MessageDTO, Message>(messageDto);
-            _unitOfWork.Messages.Create(message);
-            _unitOfWork.Save();
-
+            try
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
+                var message = Mapper.Map<MessageDTO, Message>(messageDto);
+                _unitOfWork.Messages.Create(message);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return null;
         }
 
         public void SendMessage(MessageDTO messageDto, int fromId, int toId)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
-            var message = Mapper.Map<MessageDTO, Message>(messageDto);
-            message.ApplicationUser = _unitOfWork.UserManager.FindById(fromId);
-            var userTo = _unitOfWork.UserManager.FindById(toId);
-            message.Receiver = userTo;
-
-            _unitOfWork.Messages.Create(message);
-            _unitOfWork.Save();
+            try
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
+                var message = Mapper.Map<MessageDTO, Message>(messageDto);
+                message.ApplicationUser = _unitOfWork.UserManager.FindById(fromId);
+                var userTo = _unitOfWork.UserManager.FindById(toId);
+                message.Receiver = userTo;
+                _unitOfWork.Messages.Create(message);
+                _unitOfWork.Save();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public IEnumerable<MessageDTO> GetUserMessages(int id)
@@ -86,22 +103,28 @@ namespace SocialNetwork.Logic.Services
             _unitOfWork.Dispose();
         }
 
-        public MessageDTO Update(int id, MessageDTO newMessage)
+        public void Update(int id, MessageDTO newMessageDto)
         {
             var message = _unitOfWork.Messages.GetById(id);
             if (message == null)
-                return null;
+                throw new ValidationException("Message doesn't exist", "");
 
-            message.Text = newMessage.Text;
-            _unitOfWork.Save();
-            Mapper.Initialize(cfg => cfg.CreateMap<Message, MessageDTO>());
-            return Mapper.Map<Message, MessageDTO>(message);
+            Mapper.Initialize(cfg => cfg.CreateMap<MessageDTO, Message>());
+            var newMessage = Mapper.Map<MessageDTO, Message>(newMessageDto);
+            _unitOfWork.Messages.Update(newMessage);
         }
 
         public void Remove(int id)
         {
-            _unitOfWork.Messages.Delete(id);
-            _unitOfWork.Save();
+            try
+            {
+                _unitOfWork.Messages.Delete(id);
+                _unitOfWork.Save();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

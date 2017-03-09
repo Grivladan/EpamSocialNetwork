@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.AspNet.Identity;
 using SocialNetwork.Logic.DTO;
 using AutoMapper;
+using SocialNetwork.Logic.Infrastructure;
 
 namespace SocialNetwork.Logic.Services
 {
@@ -41,14 +42,22 @@ namespace SocialNetwork.Logic.Services
 
         public void Reject(int id)
         {
-            var request = _unitOfWork.Requests.Query.FirstOrDefault(x => x.Id == id);
-            _unitOfWork.Requests.Delete(id);
-            _unitOfWork.Save();
+            try
+            {
+                _unitOfWork.Requests.Delete(id);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Accept(int id)
         {
             var request = _unitOfWork.Requests.Query.FirstOrDefault(x => x.Id == id);
+            if (request == null)
+                throw new ValidationException("request doesn't exist","");
             var userFrom = _unitOfWork.UserManager.FindById(request.ApplicationUser.Id);
             var userTo = _unitOfWork.UserManager.FindById(request.RequestedTo);
             userFrom.Friends.Add(userTo);

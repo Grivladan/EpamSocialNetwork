@@ -9,7 +9,7 @@ namespace SocialNetwork.Logic.Interfaces
         IEnumerable<MessageDTO> GetUserMessages(int id);
         MessageDTO GetById(int id);
         MessageDTO Create(MessageDTO message);
-        MessageDTO Update(int id, MessageDTO message);
+        void Update(int id, MessageDTO message);
         void Remove(int id);
         void SendMessage(MessageDTO message, int fromId, int toId);
         int CountUnreadedMessages(int id);

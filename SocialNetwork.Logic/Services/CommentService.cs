@@ -4,6 +4,7 @@ using SocialNetwork.DataAccess.Entities;
 using SocialNetwork.DataAccess.Interfaces;
 using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,13 +27,19 @@ namespace SocialNetwork.Logic.Services
 
         public CommentDTO Create(CommentDTO commentDto)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, Comment>());
-            var comment = Mapper.Map<CommentDTO, Comment>(commentDto);
-            comment.ApplicationUser = _unitOfWork.UserManager.FindById(comment.ApplicationUserId);
-            comment.Post = _unitOfWork.Posts.GetById(comment.PostId);
-            _unitOfWork.Comments.Create(comment);
-            _unitOfWork.Save();
-
+            try
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<CommentDTO, Comment>());
+                var comment = Mapper.Map<CommentDTO, Comment>(commentDto);
+                comment.ApplicationUser = _unitOfWork.UserManager.FindById(comment.ApplicationUserId);
+                comment.Post = _unitOfWork.Posts.GetById(comment.PostId);
+                _unitOfWork.Comments.Create(comment);
+                _unitOfWork.Save();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return null;
         }
 

@@ -109,6 +109,7 @@
     <Compile Include="DTO\PostDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />
     <Compile Include="Infrastructure\DependencyResolver.cs" />
+    <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IFriendRequestService.cs" />
     <Compile Include="Interfaces\IMessageService.cs" />
