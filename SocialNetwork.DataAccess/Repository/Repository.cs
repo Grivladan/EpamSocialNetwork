@@ -33,7 +33,7 @@ namespace SocialNetwork.DataAccess.Repository
 
         public T GetById(int id)
         {
-            return Query.First(x => x.Id == id);
+            return Query.FirstOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<T> Find(Func<T, bool> predicate)

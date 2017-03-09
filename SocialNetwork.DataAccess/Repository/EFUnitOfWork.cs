@@ -111,15 +111,7 @@ namespace SocialNetwork.DataAccess.Repository
 
         public void Save()
         {
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch(DbUpdateException ex)
-            {
-                Debug.WriteLine(ex.Data);
-                Debug.WriteLine(ex.Entries);
-            }
+            _context.SaveChanges();
         }
 
     }
