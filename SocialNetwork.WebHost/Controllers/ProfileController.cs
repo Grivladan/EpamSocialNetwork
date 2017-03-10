@@ -22,7 +22,7 @@ namespace SocialNetwork.WebHost.Controllers
             _profileService = profileService;
         }
         // GET: Profile
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id= 0)
         {
             try
             {
