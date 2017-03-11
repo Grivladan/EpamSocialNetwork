@@ -25,6 +25,5 @@ namespace SocialNetwork.DataAccess.EF
         {
             return new ApplicationDbContext();
         }
-
     }
 }

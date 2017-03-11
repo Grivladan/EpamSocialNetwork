@@ -47,6 +47,7 @@
                         <img src="@Url.Action("UserPhotos", "Profile", new { id = item.Id})" height="58" width="58" id="profilePhoto" />
                     </td>
                     <td>
+                        @Html.ActionLink("Profile", "GetProfile", "Profile", new { id = item.Id}, null)
                         @Html.DisplayFor(modelItem => item.Profile.FirstName)
                         @Html.DisplayFor(modelItem => item.Profile.LastName)
                     <td>

@@ -22,6 +22,21 @@ namespace SocialNetwork.WebHost.Controllers
             _profileService = profileService;
         }
         // GET: Profile
+        public ActionResult GetProfile(int id)
+        {
+            try
+            {
+                var profileDto = _profileService.GetById(id);
+                Mapper.Initialize(cfg => cfg.CreateMap<ProfileDTO, ProfileViewModel>());
+                var profileViewModel = Mapper.Map<ProfileDTO, ProfileViewModel>(profileDto);
+                return View(profileViewModel);
+            }
+            catch(Exception ex)
+            {
+                return Content(ex.Message);
+            }
+        }
+
         public ActionResult Edit(int id= 0)
         {
             try

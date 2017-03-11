@@ -72,7 +72,6 @@ namespace SocialNetwork.WebHost.Controllers
 
             return Json( new { countRequests = count },
                  JsonRequestBehavior.AllowGet);
-        }
-        
+        }     
     }
 }

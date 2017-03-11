@@ -375,6 +375,7 @@
     <Content Include="Views\Message\GetUserMessages.cshtml" />
     <Content Include="Views\Home\GetUserFriends.cshtml" />
     <Content Include="Views\Shared\_LikeButton.cshtml" />
+    <Content Include="Views\Profile\GetProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
