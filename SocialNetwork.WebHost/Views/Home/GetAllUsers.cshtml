@@ -27,6 +27,9 @@
         }
 
         <h3>List of users</h3>
+        <div id="modDialog" class="modal fade">
+            <div id="dialogContent" class="modal-dialog"></div>
+        </div>
 
         <table class="table">
             <tr>
@@ -46,7 +49,7 @@
                         <img src="@Url.Action("UserPhotos", "Profile", new { id = item.Id})" height="58" width="58" id="profilePhoto" />
                     </td>
                     <td>
-                        @Html.ActionLink(item.Profile.FirstName + " " + item.Profile.LastName, "GetProfile", "Profile", new { id = item.Id}, null)
+                        @Html.ActionLink(item.Profile.FirstName + " " + item.Profile.LastName, "GetProfile", "Profile", new { id = item.Id}, new { @class="profileLink"})
                     <td>
                     <div class="userBtnGroup">
                         <a href="@Url.Action("Create", "Message", new { id = item.Id }, null)" class="btn btn-success">
@@ -73,7 +76,7 @@
 
 <script type="text/javascript">
     jQuery.noConflict();
-    jQuery(document).ready(function ($) {
+    $(document).ready(function () {
             $("#country").autocomplete({
                 source: function (request, response) {
                     $.ajax({
@@ -136,5 +139,14 @@
                    results: function (resultsCount) { }
                }
            });
+
+            $.ajaxSetup({ cache: false });
+            $(".profileLink").click(function (e) {
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
        })
 </script>

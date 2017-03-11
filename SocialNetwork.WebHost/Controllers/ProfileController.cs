@@ -29,7 +29,7 @@ namespace SocialNetwork.WebHost.Controllers
                 var profileDto = _profileService.GetById(id);
                 Mapper.Initialize(cfg => cfg.CreateMap<ProfileDTO, ProfileViewModel>());
                 var profileViewModel = Mapper.Map<ProfileDTO, ProfileViewModel>(profileDto);
-                return View(profileViewModel);
+                return PartialView(profileViewModel);
             }
             catch(Exception ex)
             {
