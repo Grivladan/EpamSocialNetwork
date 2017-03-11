@@ -8,7 +8,7 @@ namespace SocialNetwork.DataAccess.Entities
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "You can't send empty message")]
+        [Required]
         public string Text { get; set; }
         public DateTime? Date { get; set; }
 

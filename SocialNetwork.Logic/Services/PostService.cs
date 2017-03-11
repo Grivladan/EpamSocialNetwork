@@ -86,7 +86,7 @@ namespace SocialNetwork.Logic.Services
         {
             var user = _unitOfWork.UserManager.FindById(id);
             if (user == null)
-                throw new ValidationException("User with id " + "doesn't exist", "");
+                throw new ValidationException("User doesn't exist", "");
             var friendIds = user.Friends.Select( p => p.Id);
             var posts = _unitOfWork.Posts.Query.Where( x => friendIds.Contains((int)x.ApplicationUserId)).ToList();
             Mapper.Initialize(cfg => cfg.CreateMap<Post, PostDTO>());

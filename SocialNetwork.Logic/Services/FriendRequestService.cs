@@ -29,15 +29,22 @@ namespace SocialNetwork.Logic.Services
 
         public FriendRequest Create(int userId, int friendUserId)
         {
-            var request = new FriendRequest()
+            try
             {
-                ApplicationUser = _unitOfWork.UserManager.FindById(userId),
-                RequestedTo = friendUserId,
-                Date = DateTime.Now
-            };
-            _unitOfWork.Requests.Create(request);
-            _unitOfWork.Save();
-            return request;
+                var request = new FriendRequest()
+                {
+                    ApplicationUser = _unitOfWork.UserManager.FindById(userId),
+                    RequestedTo = friendUserId,
+                    Date = DateTime.Now
+                };
+                _unitOfWork.Requests.Create(request);
+                _unitOfWork.Save();
+                return request;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void Reject(int id)

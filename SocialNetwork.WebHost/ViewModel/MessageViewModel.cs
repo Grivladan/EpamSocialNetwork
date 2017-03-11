@@ -1,11 +1,13 @@
 ﻿using SocialNetwork.DataAccess.Entities;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.WebHost.ViewModel
 {
     public class MessageViewModel
     {
         public int Id { get; set; }
+        [Required(ErrorMessage = "You can't send empty message")]
         public string Text { get; set; }
         public DateTime? Date { get; set; }
         public int? ApplicationUserId { get; set; }

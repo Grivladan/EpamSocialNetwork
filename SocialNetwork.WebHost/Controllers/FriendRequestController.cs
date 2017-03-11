@@ -5,6 +5,8 @@ using AutoMapper;
 using SocialNetwork.WebHost.ViewModel;
 using SocialNetwork.Logic.DTO;
 using System.Collections.Generic;
+using System;
+using SocialNetwork.Logic.Infrastructure;
 
 namespace SocialNetwork.WebHost.Controllers
 {
@@ -27,20 +29,41 @@ namespace SocialNetwork.WebHost.Controllers
 
         public ActionResult Create(int friendUserId)
         {
-            var request = _friendRequestService.Create(User.Identity.GetUserId<int>(),friendUserId); 
-            return RedirectToAction("GetUserFriends", "Home");
+            try
+            {
+                var request = _friendRequestService.Create(User.Identity.GetUserId<int>(), friendUserId);
+                return RedirectToAction("GetUserFriends", "Home");
+            }
+            catch(Exception ex)
+            {
+                return Content(ex.Message);
+            }
         }
 
         public ActionResult Reject(int id)
         {
-            _friendRequestService.Reject(id);
-            return RedirectToAction("GetUserFriends", "Home");
+            try
+            {
+                _friendRequestService.Reject(id);
+                return RedirectToAction("GetUserFriends", "Home");
+            }
+            catch(ValidationException ex)
+            {
+                return Content(ex.Message);
+            }
         }
 
         public ActionResult Accept(int id)
         {
-            _friendRequestService.Accept(id);
-            return RedirectToAction("GetUserFriends", "Home");
+            try
+            {
+                _friendRequestService.Accept(id);
+                return RedirectToAction("GetUserFriends", "Home");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
         }
 
         public ActionResult HasWaitingRequest(int id)

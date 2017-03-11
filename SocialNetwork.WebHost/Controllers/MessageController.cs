@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using SocialNetwork.Logic.DTO;
 using SocialNetwork.Logic.Interfaces;
 using SocialNetwork.WebHost.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -32,25 +33,50 @@ namespace SocialNetwork.WebHost.Controllers
         [HttpPost]
         public ActionResult Create(MessageViewModel messageViewModel, int id)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<MessageViewModel, MessageDTO>());
-            var messageDto = Mapper.Map<MessageViewModel, MessageDTO>(messageViewModel);
-            var ownerId = User.Identity.GetUserId<int>();
-            _messageService.SendMessage(messageDto, ownerId, id);
-            return RedirectToAction("GetUserMessages", new { id = ownerId});
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Mapper.Initialize(cfg => cfg.CreateMap<MessageViewModel, MessageDTO>());
+                    var messageDto = Mapper.Map<MessageViewModel, MessageDTO>(messageViewModel);
+                    var ownerId = User.Identity.GetUserId<int>();
+                    _messageService.SendMessage(messageDto, ownerId, id);
+                    return RedirectToAction("GetUserMessages", new { id = ownerId });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
+            return View("Create", messageViewModel);
         }
 
         public ActionResult Remove(int id)
         {
-            _messageService.Remove(id);
-            return RedirectToAction("Index", "Message");
+            try
+            {
+                _messageService.Remove(id);
+                return RedirectToAction("Index", "Message");
+            }
+            catch (Exception ex)
+            {
+                return Content(ex.Message);
+            }
         }
 
         public ActionResult Edit(MessageViewModel messageViewModel)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<MessageViewModel, MessageDTO>());
-            var messageDto = Mapper.Map<MessageViewModel, MessageDTO>(messageViewModel);
-            _messageService.Update(messageDto.Id, messageDto);
-            return RedirectToAction("Index", "Message");
+            try
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<MessageViewModel, MessageDTO>());
+                var messageDto = Mapper.Map<MessageViewModel, MessageDTO>(messageViewModel);
+                _messageService.Update(messageDto.Id, messageDto);
+                return RedirectToAction("Index", "Message");
+            }
+            catch (Exception)
+            {
+                return View("Create", messageViewModel);
+            }
         }
 
         public ActionResult HasUnreadedMessages(int id)
