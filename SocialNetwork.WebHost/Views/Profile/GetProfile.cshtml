@@ -1,59 +1,30 @@
 ﻿@model SocialNetwork.WebHost.ViewModel.ProfileViewModel
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Country)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserPhoto)
-        </th>
-        <th></th>
-    </tr>
-
-    <tr>
-        <td>
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="row">
+            <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+            <img src="@Url.Action("UserPhotos", "Profile", new { id = Model.Id})" height="58" width="58" />
             @Html.DisplayFor(model => model.FirstName)
-        </td>
-        <td>
             @Html.DisplayFor(model => model.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.BirthDate)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Country)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.City)
-        </td>
-        <td>
-            @Html.DisplayFor(model=> model.Gender)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.UserPhoto)
-        </td>
-    </tr>
+        </div>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Birthdate:</dt>
+            <dd>@Html.DisplayFor(model => model.BirthDate)</dd>
 
-</table>
+            <dt>Country:</dt>
+            <dd>@Html.DisplayFor(model => model.Country)</dd>
+
+            <dt>City:</dt>
+            <dd>@Html.DisplayFor(model => model.City)</dd>
+
+            <dt>Gender:</dt>
+            <dd>@Html.DisplayFor(model => model.Gender)</dd>
+
+            <dt>Phone:</dt>
+            <dd>@Html.DisplayFor(model => model.Phone)</dd>
+        </dl>
+    </div>
+</div>

@@ -1,6 +1,5 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-@using Microsoft.AspNet.Identity;
 @model IPagedList<SocialNetwork.DataAccess.Entities.ApplicationUser>
 
 @{
@@ -47,9 +46,7 @@
                         <img src="@Url.Action("UserPhotos", "Profile", new { id = item.Id})" height="58" width="58" id="profilePhoto" />
                     </td>
                     <td>
-                        @Html.ActionLink("Profile", "GetProfile", "Profile", new { id = item.Id}, null)
-                        @Html.DisplayFor(modelItem => item.Profile.FirstName)
-                        @Html.DisplayFor(modelItem => item.Profile.LastName)
+                        @Html.ActionLink(item.Profile.FirstName + " " + item.Profile.LastName, "GetProfile", "Profile", new { id = item.Id}, null)
                     <td>
                     <div class="userBtnGroup">
                         <a href="@Url.Action("Create", "Message", new { id = item.Id }, null)" class="btn btn-success">
